@@ -1,9 +1,9 @@
 """ Unit tests for the standard columns pdf's. """
 
-from hypothesis import given
+from copy import deepcopy
+from hypothesis import given, settings
 from hypothesis.strategies import floats, integers
-
-from genetic_data.column_pdfs import Gamma
+from genetic_data.column_pdfs import Gamma, Poisson
 
 class TrivialPDF(object):
     """ A trivial pdf class for testing. """
@@ -15,53 +15,103 @@ class TrivialPDF(object):
         pass
 
 
-@given(alpha=floats(min_value=1e-3),
-       theta=floats(min_value=1e-3),
-       nrows=integers(min_value=1))
-def test_gamma_sample(alpha, theta, nrows):
-    """ Verify that a given Gamma object can sample correctly. """
+class TestGamma():
+    """ A class containing the tests for the Gamma column pdf. """
 
-    gamma_pdf = Gamma(alpha, theta, nrows)
-    sample = gamma_pdf.sample()
-    assert sample.shape == (nrows,)
-    assert sample.dtype == 'float'
+    limits = given(alpha=floats(min_value=1e-3),
+                   theta=floats(min_value=1e-3),
+                   nrows=integers(min_value=1))
+
+    @limits
+    @settings(deadline=1000)
+    def test_sample(self, alpha, theta, nrows):
+        """ Verify that a given Gamma object can sample correctly. """
+        gamma_pdf = Gamma(alpha, theta, nrows)
+        sample = gamma_pdf.sample()
+        assert sample.shape == (nrows,)
+        assert sample.dtype == 'float'
+
+    @limits
+    @settings(deadline=1000)
+    def test_mutation_defaults(self, alpha, theta, nrows):
+        """ Verify that .mutate() returns self by default. """
+        gamma = Gamma(alpha, theta, nrows)
+        mutant = deepcopy(gamma).mutate()
+        assert mutant.alpha == gamma.alpha
+        assert mutant.theta == gamma.theta
+        assert mutant.nrows == gamma.nrows
+        assert mutant.alternative_pdfs == gamma.alternative_pdfs
+        assert mutant.seed == gamma.seed
+
+    @limits
+    @settings(deadline=1000)
+    def test_change_parameters(self, alpha, theta, nrows):
+        """ Verify Gamma object can mutate by changing its parameters. """
+        gamma = Gamma(alpha, theta, nrows)
+        mutant = deepcopy(gamma).mutate(change_alpha=True, change_theta=True)
+        assert mutant.alpha > 0
+        assert mutant.alpha != gamma.alpha
+        assert mutant.theta > 0
+        assert mutant.theta != gamma.theta
+
+    def test_change_pdf(self):
+        """ Verify Gamma object can mutate to another kind of pdf. Here the
+        TrivialPDF class is used for illustration. """
+        gamma = Gamma(alternative_pdfs=[TrivialPDF()])
+        mutant = gamma.mutate(change_pdf=True)
+        assert 'TrivialPDF' in str(mutant.__class__)
+
+    def test_change_seed(self):
+        """ Verify Gamma object can mutate by changing its seed. """
+        gamma = Gamma()
+        mutant = deepcopy(gamma).mutate(change_seed=True)
+        assert mutant.seed != gamma.seed
 
 
-@given(alpha=floats(min_value=1e-3),
-       theta=floats(min_value=1e-3),
-       nrows=integers(min_value=1))
-def test_gamma_mutation_defaults(alpha, theta, nrows):
-    """ Verify that by default Gamma.mutate() returns itself. """
+class TestPoisson():
+    """ A class containing the tests for the Poisson column pdf. """
 
-    gamma_pdf = Gamma(alpha, theta, nrows, [TrivialPDF()])
-    mutant = gamma_pdf.mutate()
-    assert gamma_pdf == mutant
+    limits = given(mu=floats(min_value=1e-3, max_value=1e12),
+                   nrows=integers(min_value=1))
 
-def test_gamma_change_pdf():
-    """ Verify Gamma object can mutate to another kind of pdf. Here the
-    TrivialPDF class is used for illustration. """
+    @limits
+    @settings(deadline=1000)
+    def test_sample(self, mu, nrows):
+        """ Verify that a given Poisson object can sample correctly. """
+        poisson = Poisson(mu, nrows)
+        sample = poisson.sample()
+        assert sample.shape == (nrows,)
+        assert sample.dtype == 'int'
 
-    gamma_pdf = Gamma(alternative_pdfs=[TrivialPDF()])
-    mutant = gamma_pdf.mutate(change_pdf=True)
-    assert 'TrivialPDF' in str(mutant.__class__)
+    @limits
+    @settings(deadline=1000)
+    def test_mutation_defaults(self, mu, nrows):
+        """ Verify .mutate() returns self by default. """
+        poisson = Poisson(mu, nrows)
+        mutant = deepcopy(poisson).mutate()
+        assert mutant.mu == poisson.mu
+        assert mutant.nrows == poisson.nrows
+        assert mutant.alternative_pdfs == poisson.alternative_pdfs
+        assert mutant.seed == poisson.seed
 
-@given(alpha=floats(min_value=1e-3),
-       theta=floats(min_value=1e-3),
-       nrows=integers(min_value=1))
-def test_gamma_change_parameters(alpha, theta, nrows):
-    """ Verify Gamma object can mutate by changing its parameters. """
+    @limits
+    @settings(deadline=1000)
+    def test_change_parameter(self, mu, nrows):
+        """ Verify Poisson object can mutate by changing its parameter. """
+        poisson = Poisson(mu, nrows)
+        mutant = deepcopy(poisson).mutate(change_mu=True)
+        assert mutant.mu > 0
+        assert mutant.mu != poisson.mu
 
-    gamma_pdf = Gamma(alpha, theta, nrows)
-    mutant = gamma_pdf.mutate(change_alpha=True, change_theta=True)
-    assert 'Gamma' in str(mutant.__class__)
-    assert mutant.alpha > 0
-    assert mutant.theta > 0
+    def test_change_pdf(self):
+        """ Verify Poisson object can mutate to another kind of pdf. Here the
+        TrivialPDF class is used for illustration. """
+        poisson = Poisson(alternative_pdfs=[TrivialPDF()])
+        mutant = poisson.mutate(change_pdf=True)
+        assert 'TrivialPDF' in str(mutant.__class__)
 
-def test_gamma_change_seed():
-    """ Verify Gamma object can change its seed in mutation. """
-
-    gamma_pdf = Gamma()
-    old_seed = gamma_pdf.seed
-    mutant = gamma_pdf.mutate(change_seed=True)
-    assert 'Gamma' in str(mutant.__class__)
-    assert mutant.seed != old_seed
+    def test_change_seed(self):
+        """ Verify Poisson object can mutate by changing its seed. """
+        poisson = Poisson()
+        mutant = deepcopy(poisson).mutate(change_seed=True)
+        assert mutant.seed != poisson.seed

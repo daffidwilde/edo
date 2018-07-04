@@ -2,12 +2,12 @@
 
 import random
 
-from scipy.stats import gamma
+from scipy.stats import gamma, poisson
 
 import numpy as np
 
 class Gamma(object):
-    """ Continuous column pdf, given by the gamma distribution. """
+    """ Continuous column pdf given by the gamma distribution. """
 
     def __init__(self, alpha=1, theta=1, nrows=1, alternative_pdfs=None):
         """ Initialisation. """
@@ -65,4 +65,57 @@ class Gamma(object):
             self.seed = random.randint(0, 1000000)
             while self.seed == old_seed:
                 self.seed = random.randint(0, 1000000)
+        return self
+
+class Poisson(object):
+    """ Discrete column pdf given by the Poisson distribution. """
+
+    def __init__(self, mu=1, nrows=1, alternative_pdfs=None):
+        """ Initialisation. """
+
+        self.mu = mu
+        self.nrows = nrows
+        self.alternative_pdfs = alternative_pdfs
+        self.seed = random.randint(0, 1000000)
+
+    def sample(self):
+        """ Take a sample of size `nrows` from the Poisson distribution with
+        parameter `mu`. Seeded for reproducibility. """
+
+        np.random.seed(self.seed)
+        return poisson.rvs(self.mu, size=self.nrows)
+
+    def mutate(self, change_pdf=False, change_mu=False, change_seed=False):
+        """ Mutation of the column. This is either changing to another pdf all
+        together, or a change in the current parameter.
+
+        Parameters
+        ----------
+        change_pdf : bool
+            Change to another pdf. If so, no parameter mutation necessary.
+        change_mu : bool
+            Mutate the value of mu, i.e. the mean of the distribution.
+        change_seed : bool
+            Mutate the current seed for sampling the actual dataset.
+
+        Returns
+        -------
+        self : object
+            A mutated Gamma object.
+        """
+
+        if change_pdf and self.alternative_pdfs:
+            self = random.choice(self.alternative_pdfs)
+            return self
+        if change_mu:
+            old_mu = self.mu
+            self.mu = random.uniform(0, 100)
+            while self.mu == old_mu:
+                self.mu = random.uniform(0, 100)
+        if change_seed:
+            old_seed = self.seed
+            self.seed = random.randint(0, 1000000)
+            while self.seed == old_seed:
+                self.seed = random.randint(0, 1000000)
+
         return self
