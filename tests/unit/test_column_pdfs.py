@@ -3,17 +3,9 @@
 from copy import deepcopy
 from hypothesis import given, settings
 from hypothesis.strategies import floats, integers
-from genetic_data.column_pdfs import Gamma, Poisson
+from genetic_data.pdfs import Gamma, Poisson
 
-class TrivialPDF(object):
-    """ A trivial pdf class for testing. """
-    def sample(self):
-        """ Trivial sample. """
-        pass
-    def mutate(self):
-        """ Trivial mutation. """
-        pass
-
+from trivials import TrivialPDF
 
 class TestGamma():
     """ A class containing the tests for the Gamma column pdf. """
@@ -58,7 +50,8 @@ class TestGamma():
         """ Verify Gamma object can mutate to another kind of pdf. Here the
         TrivialPDF class is used for illustration. """
         gamma = Gamma(alternative_pdfs=[TrivialPDF()])
-        mutant = gamma.mutate(change_pdf=True)
+        mutant = deepcopy(gamma).mutate(change_pdf=True)
+        assert mutant != gamma
         assert 'TrivialPDF' in str(mutant.__class__)
 
     def test_change_seed(self):
