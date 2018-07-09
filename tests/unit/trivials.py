@@ -9,6 +9,6 @@ class TrivialPDF():
     def method(self):
         pass
 
-def trivial_fitness():
+def trivial_fitness(individual):
     """ A fitness function. """
     pass
