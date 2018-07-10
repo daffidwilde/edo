@@ -2,7 +2,7 @@
 
 class TrivialPDF():
     """ A column pdf representative. """
-    def __init__(self):
+    def __init__(self, nrows=1, alternative_pdfs=None):
         pass
     def sample(self):
         pass

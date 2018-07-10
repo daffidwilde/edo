@@ -69,7 +69,7 @@ class TestCreation():
         """ Create an individual and verify that it is a list of the correct
         length with the right characteristics. """
 
-        pdfs = [TrivialPDF(), Gamma(), Poisson()]
+        pdfs = [TrivialPDF, Gamma, Poisson]
 
         individual = create_individual(row_limits, col_limits, pdfs, weights)
         assert isinstance(individual, tuple)
@@ -81,7 +81,7 @@ class TestCreation():
         """ Create an initial population of individuals and verify it is a list
         of the correct length with the right characteristics. """
 
-        pdfs = [TrivialPDF(), Gamma(), Poisson()]
+        pdfs = [TrivialPDF, Gamma, Poisson]
         population = create_initial_population(size, row_limits, col_limits,
                                                pdfs, weights)
 
@@ -101,7 +101,7 @@ class TestGetFitness():
         """ Create a population and get its fitness. Then verify that the
         fitness is of the correct size and data type. """
 
-        pdfs = [TrivialPDF(), Gamma(), Poisson()]
+        pdfs = [TrivialPDF, Gamma, Poisson]
         population = create_initial_population(size, row_limits, col_limits,
                                                pdfs, weights)
         population_fitness = get_fitness(trivial_fitness, population)
@@ -116,7 +116,7 @@ class TestGetFitness():
         descending order of their fitness. Verify that all individuals are
         there. """
 
-        pdfs = [TrivialPDF(), Gamma(), Poisson()]
+        pdfs = [TrivialPDF, Gamma, Poisson]
         population = create_initial_population(size, row_limits, col_limits,
                                                pdfs, weights)
         population_fitness = get_fitness(trivial_fitness, population)
@@ -137,7 +137,7 @@ class TestBreedingProcess():
         that fitness vector. Verify that breeders are selected without
         replacement. """
 
-        pdfs = [TrivialPDF(), Gamma(), Poisson()]
+        pdfs = [TrivialPDF, Gamma, Poisson]
         population = create_initial_population(size, row_limits, col_limits,
                                                pdfs, weights)
         population_fitness = get_fitness(trivial_fitness, population)

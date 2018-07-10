@@ -18,7 +18,7 @@ def create_individual(row_limits, col_limits, column_classes, weights=None):
         Lower and upper bounds on the number of columns a dataset can have.
     column_classes : list
         A list of potential column classes to select from such as those found in
-        `column_pdfs.py`.
+        `pdfs.py`.
     weights : list
         A sequence of relative weights the same length as `column_classes`. This
         acts as a loose probability distribution from which to sample column
@@ -33,11 +33,17 @@ def create_individual(row_limits, col_limits, column_classes, weights=None):
     if min_ncols > max_ncols:
         min_ncols, max_ncols = max_ncols, min_ncols
 
+    alt_pdfs = {
+        col: [c for c in column_classes if c != col] for col in column_classes
+    }
+
     nrows = random.randint(min_nrows, max_nrows)
     ncols = random.randint(min_ncols, max_ncols)
 
+    column_pdfs = [col(nrows, alt_pdfs[col]) for col in column_classes]
+
     individual = tuple([
-        nrows, ncols, *random.choices(column_classes, weights=weights, k=ncols)
+        nrows, ncols, *random.choices(column_pdfs, weights=weights, k=ncols)
     ])
 
     return individual

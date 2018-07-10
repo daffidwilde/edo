@@ -1,19 +1,16 @@
 """ Default column probability density functions for the genetic algorithm. """
 
 import random
-
 from scipy.stats import gamma, poisson
-
 import numpy as np
 
 class Gamma(object):
     """ Continuous column pdf given by the gamma distribution. """
 
-    def __init__(self, alpha=1, theta=1, nrows=1, alternative_pdfs=None):
-        """ Initialisation. """
+    def __init__(self, nrows=1, alternative_pdfs=None):
 
-        self.alpha = alpha
-        self.theta = theta
+        self.alpha = random.uniform(0, 100)
+        self.theta = random.uniform(0, 100)
         self.nrows = nrows
         self.alternative_pdfs = alternative_pdfs
         self.seed = random.randint(0, 1000000)
@@ -34,7 +31,7 @@ class Gamma(object):
         ----------
         change_pdf : bool
             Change to another pdf. If so, no parameter mutation necessary.
-        change_alpha : bool
+        change_alpha : bool)
             Mutate value of alpha, i.e. the shape of the distribution.
         change_theta : bool
             Mutate the value of theta, i.e. the scale of the distribution.
@@ -48,7 +45,7 @@ class Gamma(object):
         """
 
         if change_pdf and self.alternative_pdfs:
-            self = random.choice(self.alternative_pdfs)
+            self = random.choice(self.alternative_pdfs)(self.nrows)
             return self
         if change_alpha:
             old_alpha = self.alpha
@@ -70,10 +67,9 @@ class Gamma(object):
 class Poisson(object):
     """ Discrete column pdf given by the Poisson distribution. """
 
-    def __init__(self, mu=1, nrows=1, alternative_pdfs=None):
-        """ Initialisation. """
+    def __init__(self, nrows=1, alternative_pdfs=None):
 
-        self.mu = mu
+        self.mu = random.uniform(0, 100)
         self.nrows = nrows
         self.alternative_pdfs = alternative_pdfs
         self.seed = random.randint(0, 1000000)
@@ -105,7 +101,7 @@ class Poisson(object):
         """
 
         if change_pdf and self.alternative_pdfs:
-            self = random.choice(self.alternative_pdfs)
+            self = random.choice(self.alternative_pdfs)(self.nrows)
             return self
         if change_mu:
             old_mu = self.mu
