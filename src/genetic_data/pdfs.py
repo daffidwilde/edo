@@ -15,6 +15,10 @@ class Gamma(object):
         self.alternative_pdfs = alternative_pdfs
         self.seed = random.randint(0, 1000000)
 
+    def get_params(self):
+        """ Return current distribution parameters. """
+        return tuple([self.alpha, self.theta])
+
     def sample(self):
         """ Take a sample of size `nrows` from the gamma distribution with
         parameters `alpha` and `theta`. Seeded for reproducibility. """
@@ -73,6 +77,10 @@ class Poisson(object):
         self.nrows = nrows
         self.alternative_pdfs = alternative_pdfs
         self.seed = random.randint(0, 1000000)
+
+    def get_params(self):
+        """ Return current distribution parameters. """
+        return tuple([self.mu])
 
     def sample(self):
         """ Take a sample of size `nrows` from the Poisson distribution with

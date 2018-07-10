@@ -1,9 +1,7 @@
 """ Tests for the components of the algorithm. """
 
 from copy import deepcopy
-from hypothesis import given, settings
-from hypothesis.strategies import floats, integers, tuples
-
+from hypothesis import settings
 from genetic_data.pdfs import Gamma, Poisson
 from genetic_data.components import create_individual, \
                                     create_initial_population, \
@@ -13,58 +11,18 @@ from genetic_data.components import create_individual, \
                                     create_offspring, \
                                     mutate_population
 
-from trivials import TrivialPDF, trivial_fitness
+from test_util.trivials import TrivialPDF, trivial_fitness
+from test_util.parameters import individual_limits, \
+                                 population_limits, \
+                                 selection_limits, \
+                                 mutation_limits
 
-ind_limits = given(
-    row_limits=tuples(integers(min_value=1, max_value=1e3),
-                      integers(min_value=1, max_value=1e3)),
-    col_limits=tuples(integers(min_value=1, max_value=1e3),
-                      integers(min_value=1, max_value=1e3)),
-    weights=tuples(floats(min_value=1e-10, max_value=1),
-                   floats(min_value=1e-10, max_value=1),
-                   floats(min_value=1e-10, max_value=1))
-)
 
-pop_limits = given(
-    size=integers(min_value=1, max_value=100),
-    row_limits=tuples(integers(min_value=1, max_value=1e3),
-                      integers(min_value=1, max_value=1e3)),
-    col_limits=tuples(integers(min_value=1, max_value=1e3),
-                      integers(min_value=1, max_value=1e3)),
-    weights=tuples(floats(min_value=1e-10, max_value=1),
-                   floats(min_value=1e-10, max_value=1),
-                   floats(min_value=1e-10, max_value=1))
-)
-
-selection_limits = given(
-    size=integers(min_value=1, max_value=100),
-    row_limits=tuples(integers(min_value=1, max_value=1e3),
-                      integers(min_value=1, max_value=1e3)),
-    col_limits=tuples(integers(min_value=1, max_value=1e3),
-                      integers(min_value=1, max_value=1e3)),
-    weights=tuples(floats(min_value=1e-10, max_value=1),
-                   floats(min_value=1e-10, max_value=1),
-                   floats(min_value=1e-10, max_value=1)),
-    best_prop=floats(min_value=1e-10, max_value=1),
-    lucky_prop=floats(min_value=1e-10, max_value=1)
-)
-
-mutation_limits = given(
-    size=integers(min_value=1, max_value=100),
-    row_limits=tuples(integers(min_value=1, max_value=1e3),
-                      integers(min_value=1, max_value=1e3)),
-    col_limits=tuples(integers(min_value=1, max_value=1e3),
-                      integers(min_value=1, max_value=1e3)),
-    weights=tuples(floats(min_value=1e-10, max_value=1),
-                   floats(min_value=1e-10, max_value=1),
-                   floats(min_value=1e-10, max_value=1)),
-    mutation_rate=floats(min_value=0, max_value=1)
-)
 
 class TestCreation():
     """ Tests for the creation of an individual and an initial population. """
 
-    @ind_limits
+    @individual_limits
     def test_individual(self, row_limits, col_limits, weights):
         """ Create an individual and verify that it is a list of the correct
         length with the right characteristics. """
@@ -76,7 +34,7 @@ class TestCreation():
         assert len(individual) == individual[1] + 2
         assert isinstance(individual[0], int) and isinstance(individual[1], int)
 
-    @pop_limits
+    @population_limits
     def test_initial_population(self, size, row_limits, col_limits, weights):
         """ Create an initial population of individuals and verify it is a list
         of the correct length with the right characteristics. """
@@ -96,7 +54,7 @@ class TestCreation():
 class TestGetFitness():
     """ Test the get_fitness function. """
 
-    @pop_limits
+    @population_limits
     def test_get_fitness(self, size, row_limits, col_limits, weights):
         """ Create a population and get its fitness. Then verify that the
         fitness is of the correct size and data type. """
@@ -109,7 +67,7 @@ class TestGetFitness():
         assert population_fitness.shape == (len(population),)
         assert population_fitness.dtype == 'float'
 
-    @pop_limits
+    @population_limits
     def test_get_ordered_population(self, size, row_limits, col_limits,
                                     weights):
         """ Create a population, get its fitness and order the individuals in
@@ -132,11 +90,12 @@ class TestBreedingProcess():
     @selection_limits
     @settings(max_examples=100)
     def test_select_breeders(self, size, row_limits, col_limits, weights,
-                             best_prop, lucky_prop):
+                             props):
         """ Create a population, get its fitness and select breeders based on
         that fitness vector. Verify that breeders are selected without
         replacement. """
 
+        best_prop, lucky_prop = props
         pdfs = [TrivialPDF, Gamma, Poisson]
         population = create_initial_population(size, row_limits, col_limits,
                                                pdfs, weights)

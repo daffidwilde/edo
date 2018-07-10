@@ -4,11 +4,11 @@ algorithm. """
 import random
 import numpy as np
 
-from genetic_data.operators import crossover, mutate
+from genetic_data.operators import crossover, mutate_individual
 
 def create_individual(row_limits, col_limits, column_classes, weights=None):
     """ Create an individual dataset's allele representation within the limits
-    provided. Alleles are given in the form of a `namedtuple`.
+    provided. Alleles are given in the form of a tuple.
 
     Parameters
     ----------
@@ -25,20 +25,17 @@ def create_individual(row_limits, col_limits, column_classes, weights=None):
         classes. If `None`, column classes are sampled equally.
     """
 
-    min_nrows, max_nrows = row_limits
-    min_ncols, max_ncols = col_limits
-
-    if min_nrows > max_nrows:
-        min_nrows, max_nrows = max_nrows, min_nrows
-    if min_ncols > max_ncols:
-        min_ncols, max_ncols = max_ncols, min_ncols
+    if row_limits[0] > row_limits[1]:
+        row_limits = row_limits[::-1]
+    if col_limits[0] > col_limits[1]:
+        col_limits = col_limits[::-1]
 
     alt_pdfs = {
         col: [c for c in column_classes if c != col] for col in column_classes
     }
 
-    nrows = random.randint(min_nrows, max_nrows)
-    ncols = random.randint(min_ncols, max_ncols)
+    nrows = random.randint(*row_limits)
+    ncols = random.randint(*col_limits)
 
     column_pdfs = [col(nrows, alt_pdfs[col]) for col in column_classes]
 
