@@ -2,7 +2,7 @@
 
 from copy import deepcopy
 from hypothesis import given
-from hypothesis.strategies import floats, integers
+from hypothesis.strategies import integers
 from genetic_data.pdfs import Gamma, Poisson
 
 from test_util.trivials import TrivialPDF
@@ -10,33 +10,31 @@ from test_util.trivials import TrivialPDF
 class TestGamma():
     """ A class containing the tests for the Gamma column pdf. """
 
-    limits = given(alpha=floats(min_value=1e-3),
-                   theta=floats(min_value=1e-3),
-                   nrows=integers(min_value=1))
+    def test_str(self):
+        """ Verify object has correct string. """
+        gamma = Gamma()
+        assert str(gamma) == 'Gamma'
 
     @given(nrows=integers(min_value=1))
     def test_sample(self, nrows):
         """ Verify that a given Gamma object can sample correctly. """
-        gamma_pdf = Gamma(nrows)
-        sample = gamma_pdf.sample()
+        gamma_pdf = Gamma()
+        sample = gamma_pdf.sample(nrows)
         assert sample.shape == (nrows,)
         assert sample.dtype == 'float'
 
-    @given(nrows=integers(min_value=1))
-    def test_mutation_defaults(self, nrows):
+    def test_mutation_defaults(self):
         """ Verify that .mutate() returns self by default. """
-        gamma = Gamma(nrows)
+        gamma = Gamma()
         mutant = deepcopy(gamma).mutate()
         assert mutant.alpha == gamma.alpha
         assert mutant.theta == gamma.theta
-        assert mutant.nrows == gamma.nrows
-        assert mutant.alternative_pdfs == gamma.alternative_pdfs
         assert mutant.seed == gamma.seed
+        assert mutant.alt_pdfs == gamma.alt_pdfs
 
-    @given(nrows=integers(min_value=1))
-    def test_change_parameters(self, nrows):
+    def test_change_parameters(self):
         """ Verify Gamma object can mutate by changing its parameters. """
-        gamma = Gamma(nrows)
+        gamma = Gamma()
         mutant = deepcopy(gamma).mutate(change_alpha=True, change_theta=True)
         assert mutant.alpha > 0
         assert mutant.alpha != gamma.alpha
@@ -46,10 +44,10 @@ class TestGamma():
     def test_change_pdf(self):
         """ Verify Gamma object can mutate to another kind of pdf. Here the
         TrivialPDF class is used for illustration. """
-        gamma = Gamma(alternative_pdfs=[TrivialPDF])
+        gamma = Gamma(alt_pdfs={'Gamma': [TrivialPDF]})
         mutant = deepcopy(gamma).mutate(change_pdf=True)
         assert mutant != gamma
-        assert 'TrivialPDF' in str(mutant.__class__)
+        assert 'TrivialPDF' in str(mutant)
 
     def test_change_seed(self):
         """ Verify Gamma object can mutate by changing its seed. """
@@ -61,31 +59,30 @@ class TestGamma():
 class TestPoisson():
     """ A class containing the tests for the Poisson column pdf. """
 
-    limits = given(mu=floats(min_value=1e-3, max_value=1e12),
-                   nrows=integers(min_value=1))
+    def test_str(self):
+        """ Verify that object has correct string. """
+        poisson = Poisson()
+        assert str(poisson) == 'Poisson'
 
     @given(nrows=integers(min_value=1))
     def test_sample(self, nrows):
         """ Verify that a given Poisson object can sample correctly. """
-        poisson = Poisson(nrows)
-        sample = poisson.sample()
+        poisson = Poisson()
+        sample = poisson.sample(nrows)
         assert sample.shape == (nrows,)
         assert sample.dtype == 'int'
 
-    @given(nrows=integers(min_value=1))
-    def test_mutation_defaults(self, nrows):
+    def test_mutation_defaults(self):
         """ Verify .mutate() returns self by default. """
-        poisson = Poisson(nrows)
+        poisson = Poisson()
         mutant = deepcopy(poisson).mutate()
         assert mutant.mu == poisson.mu
-        assert mutant.nrows == poisson.nrows
-        assert mutant.alternative_pdfs == poisson.alternative_pdfs
+        assert mutant.alt_pdfs == poisson.alt_pdfs
         assert mutant.seed == poisson.seed
 
-    @given(nrows=integers(min_value=1))
-    def test_change_parameter(self, nrows):
+    def test_change_parameter(self):
         """ Verify Poisson object can mutate by changing its parameter. """
-        poisson = Poisson(nrows)
+        poisson = Poisson()
         mutant = deepcopy(poisson).mutate(change_mu=True)
         assert mutant.mu > 0
         assert mutant.mu != poisson.mu
@@ -93,9 +90,9 @@ class TestPoisson():
     def test_change_pdf(self):
         """ Verify Poisson object can mutate to another kind of pdf. Here the
         TrivialPDF class is used for illustration. """
-        poisson = Poisson(alternative_pdfs=[TrivialPDF])
+        poisson = Poisson(alt_pdfs={'Poisson': [TrivialPDF]})
         mutant = poisson.mutate(change_pdf=True)
-        assert 'TrivialPDF' in str(mutant.__class__)
+        assert 'TrivialPDF' in str(mutant)
 
     def test_change_seed(self):
         """ Verify Poisson object can mutate by changing its seed. """

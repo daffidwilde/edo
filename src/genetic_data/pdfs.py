@@ -4,27 +4,29 @@ import random
 from scipy.stats import gamma, poisson
 import numpy as np
 
-class Gamma(object):
+class Gamma():
     """ Continuous column pdf given by the gamma distribution. """
 
-    def __init__(self, nrows=1, alternative_pdfs=None):
+    def __init__(self, alt_pdfs=None):
 
         self.alpha = random.uniform(0, 100)
         self.theta = random.uniform(0, 100)
-        self.nrows = nrows
-        self.alternative_pdfs = alternative_pdfs
-        self.seed = random.randint(0, 1000000)
+        self.seed = random.randint(0, 1e6)
+        self.alt_pdfs = alt_pdfs
+
+    def __str__(self):
+        return 'Gamma'
 
     def get_params(self):
         """ Return current distribution parameters. """
         return tuple([self.alpha, self.theta])
 
-    def sample(self):
+    def sample(self, nrows=None):
         """ Take a sample of size `nrows` from the gamma distribution with
         parameters `alpha` and `theta`. Seeded for reproducibility. """
 
         np.random.seed(self.seed)
-        return gamma.rvs(a=self.alpha, scale=self.theta, size=self.nrows)
+        return gamma.rvs(a=self.alpha, scale=self.theta, size=nrows)
 
     def mutate(self, change_pdf=False, change_alpha=False,
                change_theta=False, change_seed=False):
@@ -48,8 +50,9 @@ class Gamma(object):
             A mutated Gamma object.
         """
 
-        if change_pdf and self.alternative_pdfs:
-            self = random.choice(self.alternative_pdfs)(self.nrows)
+        if change_pdf and self.alt_pdfs:
+            possible_pdfs = self.alt_pdfs[str(self)]
+            self = random.choice(possible_pdfs)(self.alt_pdfs)
             return self
         if change_alpha:
             old_alpha = self.alpha
@@ -63,31 +66,33 @@ class Gamma(object):
                 self.theta = random.uniform(0, 100)
         if change_seed:
             old_seed = self.seed
-            self.seed = random.randint(0, 1000000)
+            self.seed = random.randint(0, 1e6)
             while self.seed == old_seed:
-                self.seed = random.randint(0, 1000000)
+                self.seed = random.randint(0, 1e6)
         return self
 
-class Poisson(object):
+class Poisson():
     """ Discrete column pdf given by the Poisson distribution. """
 
-    def __init__(self, nrows=1, alternative_pdfs=None):
+    def __init__(self, alt_pdfs=None):
 
         self.mu = random.uniform(0, 100)
-        self.nrows = nrows
-        self.alternative_pdfs = alternative_pdfs
-        self.seed = random.randint(0, 1000000)
+        self.seed = random.randint(0, 1e6)
+        self.alt_pdfs = alt_pdfs
+
+    def __str__(self):
+        return 'Poisson'
 
     def get_params(self):
         """ Return current distribution parameters. """
         return tuple([self.mu])
 
-    def sample(self):
+    def sample(self, nrows=None):
         """ Take a sample of size `nrows` from the Poisson distribution with
         parameter `mu`. Seeded for reproducibility. """
 
         np.random.seed(self.seed)
-        return poisson.rvs(self.mu, size=self.nrows)
+        return poisson.rvs(self.mu, size=nrows)
 
     def mutate(self, change_pdf=False, change_mu=False, change_seed=False):
         """ Mutation of the column. This is either changing to another pdf all
@@ -108,8 +113,9 @@ class Poisson(object):
             A mutated Gamma object.
         """
 
-        if change_pdf and self.alternative_pdfs:
-            self = random.choice(self.alternative_pdfs)(self.nrows)
+        if change_pdf and self.alt_pdfs:
+            possible_pdfs = self.alt_pdfs[str(self)]
+            self = random.choice(possible_pdfs)(self.alt_pdfs)
             return self
         if change_mu:
             old_mu = self.mu
@@ -118,8 +124,8 @@ class Poisson(object):
                 self.mu = random.uniform(0, 100)
         if change_seed:
             old_seed = self.seed
-            self.seed = random.randint(0, 1000000)
+            self.seed = random.randint(0, 1e6)
             while self.seed == old_seed:
-                self.seed = random.randint(0, 1000000)
+                self.seed = random.randint(0, 1e6)
 
         return self
