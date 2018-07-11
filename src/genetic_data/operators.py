@@ -4,35 +4,39 @@ import random
 
 def crossover(parent1, parent2, prob=0.5):
     """ Select alleles from `parent1` with probability `prob`. Otherwise select
-    from `parent2`. Collate alleles to form a new individual or offspring. """
+    from `parent2`. Collate alleles to form a new individual. """
 
-    weights = [prob, 1-prob]
-    nrows = random.choices([parent1[0], parent2[0]], weights)[0]
-    ncols = random.choices([parent1[1], parent2[1]], weights)[0]
+    if random.random() < prob:
+        nrows = parent1[0]
+    else:
+        nrows = parent2[0]
+
+    if random.random() < prob:
+        ncols = parent1[1]
+    else:
+        ncols = parent2[1]
 
     longest_parent = sorted([parent1, parent2], key=len, reverse=True)[0]
 
     cols = []
     for i in range(ncols):
         if i < min(parent1[1], parent2[1]):
-            col = random.choices([parent1[i+2], parent2[i+2]], weights)[0]
+            if random.random() < prob:
+                col = parent1[i+2]
+            else:
+                col = parent2[i+2]
         else:
             col = longest_parent[i+2]
-        col.nrows = nrows
         cols.append(col)
 
     offspring = tuple([nrows, ncols, *cols])
     return offspring
 
-def mutate_individual(individual, prob, row_limits, col_limits, pdfs, weights):
+def mutate_individual(individual, prob, row_limits, col_limits, pdfs, weights,
+                      alt_pdfs):
     """ Mutate an individual's allele representation. Alleles are split into
     three parts: number of rows, number of columns, and the column
     distributions. Each of these parts is mutated with a different """
-
-    if row_limits[0] > row_limits[1]:
-        row_limits = row_limits[::-1]
-    if col_limits[0] > col_limits[1]:
-        col_limits = col_limits[::-1]
 
     mutant = list(individual[:2])
 
@@ -43,13 +47,12 @@ def mutate_individual(individual, prob, row_limits, col_limits, pdfs, weights):
 
     cols = []
     for col in individual[2: min(mutant[1], individual[1])+1]:
-        col.nrows = mutant[0]
         cols.append(col)
     mutant += cols
 
     spare_cols = mutant[1] - len(mutant[2:])
     if spare_cols > 0:
-        pdfs = [pdf(mutant[0]) for pdf in pdfs]
+        pdfs = [pdf(alt_pdfs=alt_pdfs) for pdf in pdfs]
         mutant += random.choices(pdfs, weights, k=spare_cols)
 
     for col in mutant[2:]:

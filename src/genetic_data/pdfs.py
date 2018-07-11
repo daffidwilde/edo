@@ -52,7 +52,7 @@ class Gamma():
 
         if change_pdf and self.alt_pdfs:
             possible_pdfs = self.alt_pdfs[str(self)]
-            self = random.choice(possible_pdfs)(self.alt_pdfs)
+            self = random.choice(possible_pdfs)(alt_pdfs=self.alt_pdfs)
             return self
         if change_alpha:
             old_alpha = self.alpha
@@ -115,7 +115,7 @@ class Poisson():
 
         if change_pdf and self.alt_pdfs:
             possible_pdfs = self.alt_pdfs[str(self)]
-            self = random.choice(possible_pdfs)(self.alt_pdfs)
+            self = random.choice(possible_pdfs)(alt_pdfs=self.alt_pdfs)
             return self
         if change_mu:
             old_mu = self.mu

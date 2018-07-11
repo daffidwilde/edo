@@ -47,3 +47,8 @@ mutation_limits = given(size=size,
                         weights=weights,
                         mutation_rate=rate,
                         allele_prob=rate)
+
+operator_limits = given(row_limits=shapes,
+                        col_limits=shapes,
+                        weights=weights,
+                        prob=rate)

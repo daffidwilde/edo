@@ -26,8 +26,8 @@ def create_individual(row_limits, col_limits, column_classes, weights=None,
         acts as a loose probability distribution from which to sample column
         classes. If `None`, column classes are sampled equally.
     alt_pdfs : dict
-        The name of each class of column pdf is a key with its value being a
-        list of all the other types of column pdf available.
+        The name of each class of column pdf acts as a key with its value being
+        a list of all the other types of column pdf available.
     """
 
     nrows = random.randint(*row_limits)
@@ -42,7 +42,7 @@ def create_individual(row_limits, col_limits, column_classes, weights=None,
     return individual
 
 def create_initial_population(size, row_limits, col_limits,
-                              column_classes, weights=None):
+                              column_classes, weights=None, alt_pdfs=None):
     """ Create an initial population for the genetic algorithm based on the
     given parameters.
 
@@ -61,6 +61,9 @@ def create_initial_population(size, row_limits, col_limits,
         A sequence of relative weights the same length as `column_classes`. This
         acts as a loose probability distribution from which to sample column
         classes. If `None`, column classes are sampled equally.
+    alt_pdfs : dict
+        The name of each class of column pdf acts as a key with its value being
+        a list of all other column pdf types avaiable.
 
     Returns
     -------
@@ -71,7 +74,7 @@ def create_initial_population(size, row_limits, col_limits,
     population = []
     for _ in range(size):
         individual = create_individual(row_limits, col_limits,
-                                       column_classes, weights)
+                                       column_classes, weights, alt_pdfs)
         population.append(individual)
 
     return population
@@ -110,7 +113,7 @@ def get_ordered_population(population, population_fitness):
 
     return ordered_population
 
-def select_breeders(ordered_population, best_prop, lucky_prop):
+def select_parents(ordered_population, best_prop, lucky_prop):
     """ Given a population ranked by their fitness, select a proportion of the
     `best` individuals and another of the `lucky` individuals (if they are
     available) to form a set of potential parents. This mirrors the survival of
@@ -150,7 +153,7 @@ def create_offspring(parents, prob, size):
     return offspring
 
 def mutate_population(population, mutation_rate, allele_prob, row_limits,
-                      col_limits, pdfs, weights):
+                      col_limits, pdfs, weights, alt_pdfs):
     """ Given a population, mutate a small number of its individuals according
     to a mutation rate. For each individual that is to be mutated, their alleles
     are mutated with a separate probability `allele_prob`. """
@@ -159,7 +162,7 @@ def mutate_population(population, mutation_rate, allele_prob, row_limits,
     for ind in population:
         if random.random() < mutation_rate:
             ind = mutate_individual(ind, allele_prob, row_limits, col_limits,
-                                    pdfs, weights)
+                                    pdfs, weights, alt_pdfs)
         new_population.append(ind)
 
     return new_population
