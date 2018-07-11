@@ -3,6 +3,7 @@ algorithm. """
 
 import random
 import numpy as np
+import pandas as pd
 
 from genetic_data.operators import crossover, mutate_individual
 
@@ -80,12 +81,23 @@ def create_initial_population(size, row_limits, col_limits,
 
     return population
 
+def get_dataframe(individual):
+    """ Return the actual dataset represented by an individual's alleles as a
+    `pandas.DataFrame` object. """
+
+    df = pd.DataFrame({
+        f'col_{i}': col.sample() for i, col in enumerate(individual[2:])
+    })
+
+    return df
+
 def get_fitness(fitness, population):
     """ Return the fitness score of each individual in a population. """
 
     population_fitness = np.empty(len(population))
     for i, individual in enumerate(population):
-        population_fitness[i] = fitness(individual)
+        df = get_dataframe(individual)
+        population_fitness[i] = fitness(df)
 
     return population_fitness
 
@@ -111,14 +123,15 @@ def select_breeders(ordered_population, best_prop, lucky_prop):
     converging too early. """
 
     size = len(ordered_population)
-    num_best = int(best_prop * size)
-    num_lucky = int(lucky_prop * size)
+    num_best = max(int(best_prop * size), 1)
+    num_lucky = max(int(lucky_prop * size), 1)
     population = list(ordered_population.keys())
 
     breeders = []
     for _ in range(num_best):
         if population != []:
-            breeders.append(population.pop(0))
+            best_breeder = population.pop(0)
+            breeders.append(best_breeder)
 
     for _ in range(num_lucky):
         if population != []:
@@ -126,19 +139,32 @@ def select_breeders(ordered_population, best_prop, lucky_prop):
             breeders.append(lucky_breeder)
             population.remove(lucky_breeder)
 
-    random.shuffle(breeders)
     return breeders
 
-def create_offspring(breeders, crossover, size):
+def create_offspring(breeders, prob, size):
     """ Given a set of breeders, create offspring from pairs of breeders until
     there are enough offspring. Each offspring is formed using a crossover
     operator on the two parent individuals. """
 
-    pass
+    offspring = []
+    while len(offspring) < size:
+        parent1, parent2 = random.choices(breeders, k=2)
+        child = crossover(parent1, parent2, prob)
+        offspring.append(child)
 
-def mutate_population(population, mutation_rate, allele_prob):
+    return offspring
+
+def mutate_population(population, mutation_rate, allele_prob, row_limits,
+                      col_limits, pdfs, weights):
     """ Given a population, mutate a small number of its individuals according
     to a mutation rate. For each individual to be mutated, their alleles are
     mutated with probability `allele_prob`. """
 
-    pass
+    new_population = []
+    for ind in population:
+        if random.random() < mutation_rate:
+            ind = mutate_individual(ind, allele_prob, row_limits, col_limits,
+                                    pdfs, weights)
+        new_population.append(ind)
+
+    return new_population

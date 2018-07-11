@@ -3,7 +3,8 @@
 class TrivialPDF():
     """ A column pdf representative. """
     def __init__(self, nrows=1, alternative_pdfs=None):
-        pass
+        self.nrows = nrows
+        self.alternative_pdfs = alternative_pdfs
     def sample(self):
         pass
     def method(self):

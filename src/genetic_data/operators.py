@@ -18,6 +18,7 @@ def crossover(parent1, parent2, prob=0.5):
             col = random.choices([parent1[i+2], parent2[i+2]], weights)[0]
         else:
             col = longest_parent[i+2]
+        col.nrows = nrows
         cols.append(col)
 
     offspring = tuple([nrows, ncols, *cols])

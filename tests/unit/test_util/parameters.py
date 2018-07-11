@@ -15,7 +15,6 @@ shapes = tuples(integers(min_value=1, max_value=1e3),
          .map(sorted).filter(lambda x: x[0] <= x[1])
 
 weights = tuples(floats(min_value=1e-10, max_value=1),
-                 floats(min_value=1e-10, max_value=1),
                  floats(min_value=1e-10, max_value=1)) \
           .map(sorted).filter(lambda x: sum(x) <= 1.0)
 
@@ -35,8 +34,16 @@ selection_limits = given(size=size,
                          weights=weights,
                          props=props)
 
+offspring_limits = given(size=size,
+                         row_limits=shapes,
+                         col_limits=shapes,
+                         weights=weights,
+                         props=props,
+                         prob=rate)
+
 mutation_limits = given(size=size,
                         row_limits=shapes,
                         col_limits=shapes,
                         weights=weights,
-                        mutation_rate=rate)
+                        mutation_rate=rate,
+                        allele_prob=rate)

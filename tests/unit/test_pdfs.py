@@ -5,7 +5,7 @@ from hypothesis import given
 from hypothesis.strategies import floats, integers
 from genetic_data.pdfs import Gamma, Poisson
 
-from trivials import TrivialPDF
+from test_util.trivials import TrivialPDF
 
 class TestGamma():
     """ A class containing the tests for the Gamma column pdf. """

@@ -18,7 +18,7 @@ operator_limits = given(
 )
 
 @operator_limits
-def test_crossover_length(row_limits, col_limits, weights, prob):
+def test_crossover(row_limits, col_limits, weights, prob):
     """ Verify that `crossover` produces a valid individual. """
 
     pdfs = [Gamma, Poisson]
@@ -45,3 +45,4 @@ def test_mutate_individual(row_limits, col_limits, weights, prob):
     assert len(mutant) == mutant[1] + 2
     for col in mutant[2:]:
         assert isinstance(col, tuple(pdfs))
+        assert col.nrows == mutant[0]
