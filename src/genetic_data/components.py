@@ -65,6 +65,10 @@ def create_initial_population(size, row_limits, col_limits, pdfs, weights=None):
         A collection of individuals.
     """
 
+    if size <= 1:
+        raise ValueError('There must be more than one individual in a \
+                          population')
+
     population = []
     for _ in range(size):
         individual = create_individual(row_limits, col_limits, pdfs, weights)
@@ -72,36 +76,51 @@ def create_initial_population(size, row_limits, col_limits, pdfs, weights=None):
 
     return population
 
-def get_dataframe(individual):
-    """ Return the actual dataset represented by an individual's alleles as a
-    `pandas.DataFrame` object. """
+def get_dataframes(individual, max_seed):
+    """ Sample `max_seed` datasets from the family of datasets represented by an
+    individual's alleles. Each of these is a `pandas.DataFrame` object. """
 
-    nrows = individual[0]
-    df = pd.DataFrame({f'col_{i}': col.sample(nrows) \
-                       for i, col in enumerate(individual[2:])})
+    dfs = []
+    for seed in range(max_seed):
+        nrows = individual[0]
+        df = pd.DataFrame({f'col_{i}': col.sample(nrows, seed) \
+                           for i, col in enumerate(individual[2:])})
+        dfs.append(df)
 
-    return df
+    return dfs
 
-def get_fitness(fitness, population):
-    """ Return the fitness score of each individual in a population. """
+def get_fitness(fitness, population, max_seed, amalgamation_method=np.mean):
+    """ Return the fitness score of each individual in a population. Each score
+    is determined by amalgamating the fitness scores of `max_seed` sampled
+    datasets from that individual's family of datasets. By default, the mean is
+    used to amalgamate these fitness scores. However, any function can be passed
+    here on how to reduce the set of fitness scores. Some examples could be:
+    choosing worst/best case scenarios with Python's `min` or `max` functions;
+    taking the median score; or, cutting off outliers to give a truncated mean.
+    """
 
+    individual_fitnesses = np.empty((len(population), max_seed))
     population_fitness = np.empty(len(population))
     for i, individual in enumerate(population):
-        df = get_dataframe(individual)
-        population_fitness[i] = fitness(df)
+        dfs = get_dataframes(individual, max_seed)
+        for j, df in enumerate(dfs):
+            individual_fitnesses[i, j] = fitness(df)
+        population_fitness[i] = amalgamation_method(individual_fitnesses[i, :])
 
     return population_fitness
 
 def get_ordered_population(population, population_fitness):
     """ Return a dictionary with key-value pairs given by the individuals in a
-    population and their respective fitness. This population is sorted into
-    descending order of fitness. """
+    population and their respective fitness. The population is sorted into
+    descending order of fitness so that higher fitness scores reflect fitter
+    individuals. Note that the `fitness` function passed to the algorithm may
+    need to be modified to fall in line with this convention. """
 
     fitness_dict = {
         ind: fit for ind, fit in zip(population, population_fitness)
     }
     ordered_population = dict(
-        sorted(fitness_dict.items(), reverse=True, key=lambda x: x[1])
+            sorted(fitness_dict.items(), reverse=True, key=lambda x: x[1])
     )
 
     return ordered_population
