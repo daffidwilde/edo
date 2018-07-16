@@ -1,15 +1,14 @@
-genetic_data
-============
+GeneticData
+***********
 
 A library for generating artificial datasets through genetic evolution.
------------------------------------------------------------------------
-
+=======================================================================
 Typically, when faced with a problem in data science, the data is fixed and the
 researcher must select an algorithm that suits both the problem and performs
 well on the data. This is typically done by running multiple algorithms on the
-dataset or by justifying a choice based on the findings of current literature.
-But what makes that data "good" for the algorithm? Why is it that an algorithm
-performs well on some datasets and not others?
+dataset or by justifying a choice based on the findings of the current
+literature. But what makes that data "good" for the algorithm? Why is it that an
+algorithm performs well on some datasets and not others?
 
 The purpose of this library is to create a population of families of datasets
 for which a specific algorithm performs well with respect to its objective
@@ -33,13 +32,28 @@ given by:
 .. math::
     f(X) = f_A(X) - f_B(X)
 
-This fitness function, when passed to the GA, will generate individuals for
-which algorithm :math:`A` outperforms algorithm :math:`B`.
+This fitness function, when passed to the GA, will attempt to generate
+individuals for which algorithm :math:`A` outperforms algorithm :math:`B`.
 
 What is a genetic algorithm?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+============================
+Genetic algorithms (GAs) form a branch of search and optimisation methods that
+utilise the concept of natural selection. GAs work by creating populations of
+individuals based on their fitness. These individuals are potential solutions in
+the search space and are typically represented by a string of "alleles".
+Together, these alleles form a "chromosome" representation. Most GAs, regardless
+of their application, have the following operators:
+
+* **Selection:** A method for selecting a subset of individuals from the current
+  population for producing the next. Almost always based on the fitness of the
+  individuals.
+* **Crossover:** An operator on two individuals, often deemed to be "parents",
+  that creates one or more "offspring".
+* **Mutation:** Takes each new offspring in turn and changes ("mutates") each of
+  their alleles with some probability.
+
+A schematic of a generic GA is given below.
 
 .. image:: ./docs/_static/flowchart.png
-    :scale: 100 %
     :alt: A schematic for a genetic algorithm
     :align: center
