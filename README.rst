@@ -39,7 +39,7 @@ which algorithm :math:`A` outperforms algorithm :math:`B`.
 What is a genetic algorithm?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. image:: ./docs/_static/flow_chart.pdf
+.. image:: ./docs/_static/flowchart.png
     :scale: 100 %
     :alt: A schematic for a genetic algorithm
     :align: center
