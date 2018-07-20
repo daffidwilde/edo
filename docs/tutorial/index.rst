@@ -8,11 +8,10 @@ selection, crossover and mutation respectively.
 
 For the purposes of this tutorial, we will make use of the following example.
 
-Given an :math:`m \times n` matrix of integers, :math:`X`, we can consider
-:math:`X` to be a dataset with :math:`m` rows (instances) and :math:`n` columns
-(attributes). Let :math:`X'` be a random sample of five elements from :math:`X`.
-We define the fitness, :math:`f : M_{m, n} \left(\mathbb{Z}\right) \to
-\mathbb{R}`, of :math:`X` to be:
+Given a set of :math:`n` integers, :math:`X`, we can consider :math:`X` to be a
+dataset with a single row (instance) and :math:`n` columns (attributes). Let
+:math:`X'` be a random sample of five elements from :math:`X`. We define the
+fitness, :math:`f : \mathbb{Z}^n \to \mathbb{R}`, of :math:`X` to be:
 
 .. math::
     f(X) := \left| \frac{1}{\left|X'\right|} \sum_{x' \in X'} x' -
