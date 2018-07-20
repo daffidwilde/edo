@@ -29,9 +29,8 @@ determine and study the preferred characteristics of such datasets.
 
 .. toctree::
    :maxdepth: 2
-   :titlesonly:
 
-   usage/index.rst
+   tutorial/index.rst
    operators/index.rst
    components/index.rst
    reference/index.rst
