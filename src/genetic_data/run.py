@@ -1,7 +1,5 @@
 """ The main script containing a generic genetic algorithm. """
 
-import random
-
 import numpy as np
 
 from genetic_data.pdfs import Normal
@@ -22,7 +20,7 @@ def run_algorithm(
     weights=None,
     stop=None,
     max_iter=100,
-    best_prop=25,
+    best_prop=0.25,
     lucky_prop=0.01,
     crossover_prob=0.5,
     mutation_prob=0.01,
@@ -99,7 +97,7 @@ def run_algorithm(
         Every individual's fitness in each generation.
     """
 
-    random.seed(seed)
+    np.random.seed(seed)
 
     population = create_initial_population(
         size, row_limits, col_limits, pdfs, weights
@@ -130,7 +128,7 @@ def run_algorithm(
             col_limits,
             pdfs,
             weights,
-            sigma
+            sigma,
         )
 
         pop_fitness = get_fitness(fitness, population)
