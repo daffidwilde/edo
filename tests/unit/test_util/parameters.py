@@ -1,74 +1,84 @@
 """ Parameters for hypothesis testing, etc. """
 
+import itertools as itr
+import numpy as np
+
 from hypothesis import given
-from hypothesis.strategies import floats, integers, tuples
+from hypothesis.strategies import (
+    booleans,
+    floats,
+    integers,
+    sampled_from,
+    tuples,
+)
 
-size = integers(min_value=2, max_value=10)
-max_seed = integers(min_value=1, max_value=5)
-rate = floats(min_value=0, max_value=1)
-prob = floats(min_value=0, max_value=1)
-small_prob = floats(min_value=0, max_value=1e-3)
+SIZE = integers(min_value=2, max_value=10)
+PROB = floats(min_value=0, max_value=1)
+SMALL_PROB = floats(min_value=0, max_value=1e-3)
 
-shapes = tuples(integers(min_value=1, max_value=50),
-                integers(min_value=1, max_value=50)) \
-         .map(sorted).filter(lambda x: x[0] <= x[1])
+SHAPES = (
+    tuples(
+        integers(min_value=1, max_value=50), integers(min_value=1, max_value=50)
+    )
+    .map(sorted)
+    .filter(lambda x: x[0] <= x[1])
+)
 
-weights = tuples(rate, rate) \
-          .map(sorted).filter(lambda x: sum(x) <= 1.0 and sum(x) > 0)
+UNIT = np.linspace(0, 1, 101)
+
+WEIGHTS = sampled_from(
+    [dist for dist in itr.product(UNIT, repeat=3) if sum(dist) == 1.0]
+)
 
 
-individual_limits = given(row_limits=shapes,
-                          col_limits=shapes,
-                          weights=weights)
+INDIVIDUAL = given(row_limits=SHAPES, col_limits=SHAPES, weights=WEIGHTS)
 
-population_limits = given(size=size,
-                          row_limits=shapes,
-                          col_limits=shapes,
-                          weights=weights)
+POPULATION = given(
+    size=SIZE, row_limits=SHAPES, col_limits=SHAPES, weights=WEIGHTS
+)
 
-ind_fitness_limits = given(row_limits=shapes,
-                           col_limits=shapes,
-                           weights=weights,
-                           max_seed=max_seed)
+CROSSOVER = given(
+    row_limits=SHAPES, col_limits=SHAPES, weights=WEIGHTS, prob=PROB
+)
 
-pop_fitness_limits = given(size=size,
-                           row_limits=shapes,
-                           col_limits=shapes,
-                           weights=weights,
-                           max_seed=max_seed)
+FITNESS = given(
+    size=SIZE, row_limits=SHAPES, col_limits=SHAPES, weights=WEIGHTS
+)
 
-selection_limits = given(size=size,
-                         row_limits=shapes,
-                         col_limits=shapes,
-                         weights=weights,
-                         props=weights.filter(lambda x: x[0] > 0.5
-                                              or x[1] > 0.5),
-                         max_seed=max_seed)
+MUTATION = given(
+    row_limits=SHAPES,
+    col_limits=SHAPES,
+    weights=WEIGHTS,
+    prob=PROB,
+    sigma=floats(min_value=0),
+)
 
-small_props_limits = given(size=size,
-                           row_limits=shapes,
-                           col_limits=shapes,
-                           weights=weights,
-                           props=tuples(small_prob, small_prob),
-                           max_seed=max_seed)
+OFFSPRING = given(
+    size=SIZE,
+    row_limits=SHAPES,
+    col_limits=SHAPES,
+    weights=WEIGHTS,
+    props=tuples(PROB, PROB).filter(lambda x: x[0] > 0.5 or x[1] > 0.5),
+    crossover_prob=PROB,
+    mutation_prob=PROB,
+    maximise=booleans(),
+    sigma=floats(min_value=0),
+)
 
-offspring_limits = given(size=size,
-                         row_limits=shapes,
-                         col_limits=shapes,
-                         weights=weights,
-                         props=weights.filter(lambda x: x[0] > 0.5
-                                              or x[1] > 0.5),
-                         prob=prob,
-                         max_seed=max_seed)
+SELECTION = given(
+    size=SIZE,
+    row_limits=SHAPES,
+    col_limits=SHAPES,
+    weights=WEIGHTS,
+    props=tuples(PROB, PROB).filter(lambda x: x[0] > 0.5 or x[1] > 0.5),
+    maximise=booleans(),
+)
 
-mutation_limits = given(size=size,
-                        row_limits=shapes,
-                        col_limits=shapes,
-                        weights=weights,
-                        mutation_prob=prob,
-                        allele_prob=prob)
-
-operator_limits = given(row_limits=shapes,
-                        col_limits=shapes,
-                        weights=weights,
-                        prob=prob)
+SMALL_PROPS = given(
+    size=SIZE,
+    row_limits=SHAPES,
+    col_limits=SHAPES,
+    weights=WEIGHTS,
+    props=tuples(SMALL_PROB, SMALL_PROB),
+    maximise=booleans(),
+)
