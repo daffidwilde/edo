@@ -26,6 +26,7 @@ def run_algorithm(
     lucky_prop=0.01,
     crossover_prob=0.5,
     mutation_prob=0.01,
+    sigma=1.,
     maximise=True,
     seed=0,
 ):
@@ -75,8 +76,13 @@ def run_algorithm(
         second in a crossover operation.
     mutation_prob : float
         The probability of a particular "allele" in an individual being mutated.
+    sigma : float
+        When values are mutated in a dataset, they are resampled from the normal
+        distribution centred around the current value with standard deviation
+        `sigma`. By default this value is 1.
     maximise : bool
         Determines whether `fitness` is a function to be maximised or not.
+        Fitness is maximised by default.
     seed : int
         The seed for a pseudo-random number generator for the run of the
         algorithm.
@@ -124,6 +130,7 @@ def run_algorithm(
             col_limits,
             pdfs,
             weights,
+            sigma
         )
 
         pop_fitness = get_fitness(fitness, population)
