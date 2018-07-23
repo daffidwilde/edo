@@ -1,11 +1,11 @@
 """ A script containing functions for each of the components of the genetic
 algorithm. """
 
-import random
 import numpy as np
 import pandas as pd
 
-from genetic_data.operators import crossover, mutate_individual
+from genetic_data.operators import crossover, mutation
+
 
 def create_individual(row_limits, col_limits, pdfs, weights=None):
     """ Create an individual dataset's allele representation within the limits
@@ -19,22 +19,27 @@ def create_individual(row_limits, col_limits, pdfs, weights=None):
         Lower and upper bounds on the number of columns a dataset can have.
     pdfs : list
         A list of potential column pdf classes to select from such as those
-        found in `pdfs.py`.
+        found in `genetic_data.pdfs`.
     weights : list
         A sequence of relative weights the same length as `column_classes`. This
         acts as a loose probability distribution from which to sample column
         classes. If `None`, column classes are sampled equally.
     """
 
-    nrows = random.randint(*row_limits)
-    ncols = random.randint(*col_limits)
-    pdfs = [pdf() for pdf in pdfs]
+    nrows = np.random.randint(row_limits[0], row_limits[1] + 1)
+    ncols = np.random.randint(col_limits[0], col_limits[1] + 1)
 
-    individual = tuple([
-        nrows, ncols, *random.choices(pdfs, weights=weights, k=ncols)
-    ])
+    individual = pd.DataFrame(
+        {
+            f"col_{i}": pdf().sample(nrows)
+            for i, pdf in enumerate(
+                np.random.choice(pdfs, p=weights, size=ncols)
+            )
+        }
+    )
 
     return individual
+
 
 def create_initial_population(size, row_limits, col_limits, pdfs, weights=None):
     """ Create an initial population for the genetic algorithm based on the
@@ -55,9 +60,6 @@ def create_initial_population(size, row_limits, col_limits, pdfs, weights=None):
         A sequence of relative weights the same length as `column_classes`. This
         acts as a loose probability distribution from which to sample column
         classes. If `None`, column classes are sampled equally.
-    alt_pdfs : dict
-        The name of each class of column pdf acts as a key with its value being
-        a list of all other column pdf types avaiable.
 
     Returns
     -------
@@ -65,97 +67,93 @@ def create_initial_population(size, row_limits, col_limits, pdfs, weights=None):
         A collection of individuals.
     """
 
-    population = []
-    for _ in range(size):
-        individual = create_individual(row_limits, col_limits, pdfs, weights)
-        population.append(individual)
+    if size <= 1:
+        raise ValueError(
+            "There must be more than one individual in a \
+                          population"
+        )
 
+    population = [
+        create_individual(row_limits, col_limits, pdfs, weights)
+        for _ in range(size)
+    ]
     return population
 
-def get_dataframe(individual):
-    """ Return the actual dataset represented by an individual's alleles as a
-    `pandas.DataFrame` object. """
-
-    nrows = individual[0]
-    df = pd.DataFrame({f'col_{i}': col.sample(nrows) \
-                       for i, col in enumerate(individual[2:])})
-
-    return df
 
 def get_fitness(fitness, population):
     """ Return the fitness score of each individual in a population. """
 
-    population_fitness = np.empty(len(population))
-    for i, individual in enumerate(population):
-        df = get_dataframe(individual)
-        population_fitness[i] = fitness(df)
+    pop_fitness = [fitness(individual) for individual in population]
+    return pop_fitness
 
-    return population_fitness
 
-def get_ordered_population(population, population_fitness):
-    """ Return a dictionary with key-value pairs given by the individuals in a
-    population and their respective fitness. This population is sorted into
-    descending order of fitness. """
+def select_parents(population, pop_fitness, best_prop, lucky_prop, maximise):
+    """ Given a population, select a proportion of the `best` individuals and
+    another of the `lucky` individuals (if they are available) to form a set of
+    potential parents. This mirrors the survival of the fittest paradigm whilst
+    including a number of less-fit individuals to stop the algorithm from
+    converging too early on a suboptimal population. """
 
-    fitness_dict = {
-        ind: fit for ind, fit in zip(population, population_fitness)
-    }
-    ordered_population = dict(
-        sorted(fitness_dict.items(), reverse=True, key=lambda x: x[1])
-    )
+    size = len(population)
+    num_best = int(best_prop * size)
+    num_lucky = int(lucky_prop * size)
 
-    return ordered_population
+    if maximise:
+        choice = np.argmax
+    else:
+        choice = np.argmin
 
-def select_parents(ordered_population, best_prop, lucky_prop):
-    """ Given a population ranked by their fitness, select a proportion of the
-    `best` individuals and another of the `lucky` individuals (if they are
-    available) to form a set of potential parents. This mirrors the survival of
-    the fittest paradigm whilst including a number of less-fit individuals to
-    stop the algorithm from converging too early. """
-
-    size = len(ordered_population)
-    num_best = max(int(best_prop * size), 1)
-    num_lucky = max(int(lucky_prop * size), 1)
-    population = list(ordered_population.keys())
+    if num_best == 0 and num_lucky == 0:
+        raise ValueError(
+            'Not a large enough proportion of "best" and/or \
+                          "lucky" individuals chosen. Reconsider these values.'
+        )
 
     parents = []
     for _ in range(num_best):
         if population != []:
-            best = population.pop(0)
-            parents.append(best)
+            best = choice(pop_fitness)
+            pop_fitness.pop(best)
+            parents.append(population.pop(best))
 
     for _ in range(num_lucky):
         if population != []:
-            lucky = random.choice(population)
-            parents.append(lucky)
-            population.remove(lucky)
+            lucky = np.random.choice(len(population))
+            parents.append(population.pop(lucky))
 
     return parents
 
-def create_offspring(parents, prob, size):
+
+def create_offspring(
+    parents,
+    size,
+    crossover_prob,
+    mutation_prob,
+    row_limits,
+    col_limits,
+    pdfs,
+    weights,
+    sigma,
+):
     """ Given a set of potential parents, create offspring from pairs until
     there are enough offspring. Each individual offspring is formed using a
-    crossover operator on the two parent individuals. """
+    crossover operator on the two parent individuals and then mutating them
+    according to the probability `mutation_prob`. """
 
-    offspring = []
-    while len(offspring) < size:
-        parent1, parent2 = random.choices(parents, k=2)
-        child = crossover(parent1, parent2, prob)
-        offspring.append(child)
+    population = []
+    while len(population) < size:
+        parent1_idx, parent2_idx = np.random.choice(len(parents), size=2)
+        parent1, parent2 = parents[parent1_idx], parents[parent2_idx]
+        offspring = crossover(parent1, parent2, crossover_prob, pdfs, weights)
+        mutant = mutation(
+            offspring,
+            mutation_prob,
+            row_limits,
+            col_limits,
+            pdfs,
+            weights,
+            sigma,
+        )
+        population.append(mutant)
 
-    return offspring
-
-def mutate_population(population, mutation_prob, allele_prob, row_limits,
-                      col_limits, pdfs, weights):
-    """ Given a population, mutate a small number of its individuals according
-    to a mutation probability. For each individual that is to be mutated, their
-    alleles are mutated with a separate probability `allele_prob`. """
-
-    new_population = []
-    for ind in population:
-        if random.random() < mutation_prob:
-            ind = mutate_individual(ind, allele_prob, row_limits, col_limits,
-                                    pdfs, weights)
-        new_population.append(ind)
-
-    return new_population
+    return population
