@@ -57,3 +57,5 @@ A schematic of a generic GA is given below.
 .. image:: ./docs/_static/flowchart.png
     :alt: A schematic for a genetic algorithm
     :align: center
+
+.. include:: INSTALLATION.rst
