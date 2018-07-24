@@ -8,3 +8,4 @@ Reference
    parameters.rst
    initialisation.rst
    operators.rst
+   contributing.rst
