@@ -29,10 +29,10 @@ determine and study the preferred characteristics of such datasets.
 
 .. toctree::
    :maxdepth: 2
+   :caption: Contents
 
    tutorial/index.rst
-   operators/index.rst
-   components/index.rst
+   how-to/index.rst
    reference/index.rst
 
 Indices and tables
