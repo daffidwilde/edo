@@ -1,7 +1,5 @@
 """ The main script containing a generic genetic algorithm. """
 
-import random
-
 import numpy as np
 
 from genetic_data.pdfs import Normal
@@ -22,13 +20,13 @@ def run_algorithm(
     weights=None,
     stop=None,
     max_iter=100,
-    best_prop=25,
-    lucky_prop=0.01,
+    best_prop=0.25,
+    lucky_prop=0,
     crossover_prob=0.5,
     mutation_prob=0.01,
     sigma=1.,
     maximise=True,
-    seed=0,
+    seed=None,
 ):
     """ Run a genetic algorithm (GA) under the presented constraints, giving a
     population of artificial datasets for which the fitness function performs
@@ -85,7 +83,7 @@ def run_algorithm(
         Fitness is maximised by default.
     seed : int
         The seed for a pseudo-random number generator for the run of the
-        algorithm.
+        algorithm. If `None`, no seed is set.
 
     Returns
     -------
@@ -99,7 +97,8 @@ def run_algorithm(
         Every individual's fitness in each generation.
     """
 
-    random.seed(seed)
+    if isinstance(seed, int):
+        np.random.seed(seed)
 
     population = create_initial_population(
         size, row_limits, col_limits, pdfs, weights
@@ -130,7 +129,7 @@ def run_algorithm(
             col_limits,
             pdfs,
             weights,
-            sigma
+            sigma,
         )
 
         pop_fitness = get_fitness(fitness, population)
