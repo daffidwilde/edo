@@ -99,9 +99,9 @@ def select_parents(population, pop_fitness, best_prop, lucky_prop, maximise):
     num_lucky = int(lucky_prop * size)
 
     if maximise:
-        choice = np.argmax
+        best_choice = np.argmax
     else:
-        choice = np.argmin
+        best_choice = np.argmin
 
     if num_best == 0 and num_lucky == 0:
         raise ValueError(
@@ -112,7 +112,7 @@ def select_parents(population, pop_fitness, best_prop, lucky_prop, maximise):
     parents = []
     for _ in range(num_best):
         if population != []:
-            best = choice(pop_fitness)
+            best = best_choice(pop_fitness)
             pop_fitness.pop(best)
             parents.append(population.pop(best))
 

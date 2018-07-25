@@ -116,9 +116,9 @@ def mutation(individual, prob, row_limits, col_limits, pdfs, weights, sigma):
     limits = [row_limits, col_limits]
     for axis in [0, 1]:
         r = np.random.random()
-        if r < prob / 2 and len(individual) > limits[axis][0]:
+        if r < prob / 2 and mutant.shape[axis] > limits[axis][0]:
             mutant = _remove_line(mutant, axis)
-        elif r < prob and len(individual) < limits[axis][1]:
+        elif r < prob and mutant.shape[axis] < limits[axis][1]:
             mutant = _add_line(mutant, axis, pdfs, weights)
 
     # Iterate over the elements of an individual, mutating them by resampling
