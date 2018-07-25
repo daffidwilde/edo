@@ -18,6 +18,15 @@ That is:
 
 Again, let our objective be to minimise this fitness function. 
 
-In terms of the genetic algorithm, we would expect an optimal solution to be a
-dataset whose entries have a mean of 0. This is due to the fact that the sample
-mean is an unbiased estimator to a population mean.
+In terms of the genetic algorithm, we would expect an optimal solution to this
+problem to be a dataset, :math:`X`, whose entries have a mean of 0. This is due
+to the fact that the sample mean is an unbiased estimator to a population mean,
+i.e.:
+
+.. math::
+    \mathbb{E}(\bar Y) = \bar X
+
+Formulation
++++++++++++
+
+
