@@ -97,9 +97,9 @@ solid blue line) with our observed fitness scores (orange scatter points)::
     ...     sharex=True,
     ...     sharey=True
     ... )
-
+    >>> 
     >>> xs = np.linspace(-25, 25, 101)
-
+    >>> 
     >>> for i in range(6):
     ...
     ...     if i < 2:
@@ -120,7 +120,7 @@ solid blue line) with our observed fitness scores (orange scatter points)::
     ...         axes[j].set_xlabel(r'$x$', size=24)
     ...     if i in [0, 2, 4]:
     ...         ax.set_ylabel('Fitness', size=24)
-
+    >>> 
     >>> plt.tight_layout(pad=5)
     >>> plt.show()
 
