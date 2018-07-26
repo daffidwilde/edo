@@ -111,9 +111,8 @@ def run_algorithm(
     else:
         converged = False
 
-    all_populations = [population]
-    all_fitnesses = [pop_fitness]
     itr = 0
+    all_populations, all_fitnesses = [population], [pop_fitness]
     while itr < max_iter and not converged:
 
         parents = select_parents(
