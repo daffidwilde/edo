@@ -8,4 +8,5 @@ Reference
    parameters.rst
    initialisation.rst
    operators.rst
+   distributions.rst
    contributing.rst
