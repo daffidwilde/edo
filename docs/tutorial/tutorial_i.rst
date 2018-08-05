@@ -1,5 +1,3 @@
-.. _optimise_xsquared:
-
 Optimising a function
 ---------------------
 
@@ -80,13 +78,14 @@ Visualising results
 To see the results of the GA (and whether it worked as expected) we will plot
 the fitnesses of all the individuals at each epoch (timestep).
 
-We'll do this using Matplotlib and Numpy, so let's import them first::
+We'll do this using Matplotlib and NumPy, so let's import them first::
 
     >>> import matplotlib.pyplot as plt
     >>> import numpy as np
 
 Then using Matplotlib we can superimpose our theoretical fitness function (the
-solid blue line) with our observed fitness scores (orange scatter points)::
+solid blue line) with all of our observed fitness scores (the orange scatter
+points)::
 
     >>> fig, (top, middle, bottom) = plt.subplots(
     ...     nrows=3,
@@ -128,4 +127,7 @@ The above code should give a figure like this:
 .. image:: ../_static/tutorial_i_plot.png
    :width: 100 %
    :align: center
-   :alt: Fitness scores of every individual 
+   :alt: Fitness scores of every individual
+
+So the GA has successfully started converging towards zero but we aren't quite
+there yet. Running the algorithm for a bit longer would help that. Good news!

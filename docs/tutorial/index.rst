@@ -1,3 +1,5 @@
+.. _refs-tutorials:
+
 Tutorials: running a GA for simple fitness functions
 ====================================================
 
@@ -7,6 +9,7 @@ problems. Before that, however, the library needs to be installed.
 
 .. include:: ../../INSTALLATION.rst
 
+.. _refs-tutorial-i:
 .. include:: tutorial_i.rst
 
 .. include:: tutorial_ii.rst

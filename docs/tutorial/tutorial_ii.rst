@@ -1,5 +1,3 @@
-.. _optimise_sample_mean:
-
 Optimising a sample mean
 ------------------------
 
@@ -9,9 +7,9 @@ The problem
 Given a set of :math:`n \in \mathbb{N}` numbers, :math:`X`, we can consider
 :math:`X` to be a dataset with a single column (attribute) and :math:`n` rows
 (instances). Let :math:`Y = \{y_1, \ldots y_5\}` be a random sample of five
-elements from :math:`X`. We define the fitness, :math:`\ f : \mathbb{R}^n \to
-\mathbb{R}`, of our dataset :math:`X` to be the square of the mean of our
-sample, :math:`Y`. That is:
+elements from :math:`X` -- with replacement. We define the fitness, :math:`\ f
+: \mathbb{R}^n \to \mathbb{R}`, of our dataset :math:`X` to be the square of the
+mean of our sample, :math:`Y`. That is:
 
 .. math::
     f(X) = \bar Y^2, \quad
@@ -22,8 +20,7 @@ Again, let our objective be to minimise this fitness function.
 
 In terms of the genetic algorithm, we would expect an optimal solution to this
 problem to be a dataset, :math:`X`, whose entries have a mean of 0. This is due
-to the fact that the sample mean is an unbiased estimator to a population mean,
-i.e.:
+to the fact that the sample mean is an unbiased estimator to a population mean:
 
 .. math::
     \mathbb{E}(\bar Y) = \bar X
@@ -51,7 +48,7 @@ First we define the new fitness function::
     ...     return df.sample(5, replace=True).mean().mean() ** 2
 
 Then we adjust the limits on the number of rows a dataset can take and run the
-GA again with :code`sample_mean_squared` as its fitness function::
+GA again with :code:`sample_mean_squared` as its fitness function::
 
     >>> pop, fit, all_pops, all_fits = gd.run_algorithm(
     ...     fitness=sample_mean_squared,
@@ -68,8 +65,8 @@ Seems simple enough. Let's have a look at the results.
 Visualising results
 +++++++++++++++++++
 
-The fitness function isn't as easily visualised as in :ref:`optimise_xsquared`,
-so instead let us consider how the fitnesses are distributed in each timestep.
+The fitness function isn't as easily visualised as in the first tutorial. So,
+instead, let us consider how the fitnesses are distributed in each timestep.
 
 We'll do this using boxplots, and to discern between between population
 fitnesses in later timesteps, we will use a logarithmic scale::
@@ -92,3 +89,20 @@ Running the above code gives the following plot:
    :width: 100 %
    :align: center
    :alt: Fitness scores over the duration of the GA
+
+The first thing to see is that the median score is settling at around 0.1 which
+is a bit high. That means there is probably scope for some parameter
+optimisation here.
+
+The second thing to note is that individuals don't seem to be being carried
+forward into the next generation. This is seen by the large jumps in the lower
+whiskers of the boxplots. However, the best individuals are taken forward. The
+discrepancy in fitness scores between generations owes to the sampling in the
+fitness function; each time the fitness of an individual is taken, a new sample
+is used, giving a potentially different fitness.
+
+There are issues with convergence and effective parent selection when this
+stochastic behaviour isn't accounted for. As a result, it is recommended that if
+the fitness function of interest has this kind of behaviour then some `smoothing
+<https://en.wikipedia.org/wiki/Smoothing>`_ should be incorporated into the
+function which is passed to :code:`run_algorithm`.
