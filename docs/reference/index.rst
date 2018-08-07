@@ -6,6 +6,7 @@ Reference
    :caption: Contents
    
    parameters.rst
-   initialisation.rst
+   individual.rst
    operators.rst
+   distributions.rst
    contributing.rst

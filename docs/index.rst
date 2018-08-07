@@ -15,7 +15,10 @@ for which that algorithm performs increasingly well at.
 
 Through this approach, a user can not only create banks of effective datasets
 for their own use, but can also be able to determine and study the preferred
-characteristics of such datasets.
+characteristics of such datasets. This is made easy for a user by considering
+each individual in a population to be a pair: one part being the dataset itself,
+and the other being a list of distributions from which the column's values are
+generated.
 
 .. toctree::
    :maxdepth: 2
@@ -24,6 +27,7 @@ characteristics of such datasets.
    tutorial/index.rst
    how-to/index.rst
    reference/index.rst
+   discussion/index.rst
 
 Indices and tables
 ==================

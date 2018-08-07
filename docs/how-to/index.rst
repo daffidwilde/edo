@@ -3,20 +3,16 @@
 How-to
 ======
 
-Set a seed
-----------
+.. include:: seed.rst
 
-Use a stopping condition
-------------------------
+.. include:: stop.rst
 
-Change the selection process
-----------------------------
+.. include:: selection.rst
 
-Change the mutation process
----------------------------
+.. include:: mutation.rst
 
-Use multiple column distributions
----------------------------------
+.. include:: access_info.rst
 
-Customise column distributions
-------------------------------
+.. include:: customise_column.rst
+
+.. include:: new_column.rst
