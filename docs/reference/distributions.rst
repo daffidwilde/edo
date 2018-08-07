@@ -1,3 +1,5 @@
+.. _dists:
+
 Implemented distributions
 -------------------------
 
