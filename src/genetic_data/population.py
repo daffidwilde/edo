@@ -2,42 +2,9 @@
 algorithm. """
 
 import numpy as np
-import pandas as pd
 
-from genetic_data.individual import Individual
-from genetic_data.operators import crossover, mutation
-
-
-def create_individual(row_limits, col_limits, pdfs, weights=None):
-    """ Create an individual dataset's allele representation within the limits
-    provided. Alleles are given in the form of a tuple.
-
-    Parameters
-    ----------
-    row_limits : list
-        Lower and upper bounds on the number of rows a dataset can have.
-    col_limits : list
-        Lower and upper bounds on the number of columns a dataset can have.
-    pdfs : list
-        A list of potential column pdf classes to select from such as those
-        found in `genetic_data.pdfs`.
-    weights : list
-        A sequence of relative weights the same length as `column_classes`. This
-        acts as a loose probability distribution from which to sample column
-        classes. If `None`, column classes are sampled equally.
-    """
-
-    nrows = np.random.randint(row_limits[0], row_limits[1] + 1)
-    ncols = np.random.randint(col_limits[0], col_limits[1] + 1)
-
-    metadata, dataframe = [], pd.DataFrame()
-
-    for i, pdf in enumerate(np.random.choice(pdfs, p=weights, size=ncols)):
-        pdf = pdf()
-        dataframe[f"col_{i}"] = pdf.sample(nrows)
-        metadata.append(pdf)
-
-    return Individual(metadata, dataframe)
+from .individual import create_individual
+from .operators import crossover, mutation
 
 
 def create_initial_population(size, row_limits, col_limits, pdfs, weights=None):
@@ -100,7 +67,9 @@ def create_new_population(
     while len(population) < size:
         parent1_idx, parent2_idx = np.random.choice(len(parents), size=2)
         parent1, parent2 = parents[parent1_idx], parents[parent2_idx]
-        offspring = crossover(parent1, parent2, crossover_prob)
+        offspring = crossover(
+            parent1, parent2, col_limits, pdfs, crossover_prob
+        )
         mutant = mutation(
             offspring, mutation_prob, row_limits, col_limits, pdfs, weights
         )

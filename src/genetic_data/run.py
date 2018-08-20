@@ -3,8 +3,9 @@
 import numpy as np
 
 from genetic_data.pdfs import Normal
-from genetic_data.operators import get_fitness, selection
-from genetic_data.creation import (
+from genetic_data.fitness import get_fitness
+from genetic_data.operators import selection
+from genetic_data.population import (
     create_initial_population,
     create_new_population,
 )
@@ -33,31 +34,31 @@ def run_algorithm(
     Parameters
     ----------
     fitness : func
-        Any real-valued function that takes one `pandas.DataFrame` as argument.
-        Use the `maximise` parameter to determine how `fitness` should be
-        interpreted.
+        Any real-valued function that takes one :code:`pandas.DataFrame` as
+        argument. Use the :code:`maximise` parameter to determine how
+        :code:`fitness` should be interpreted.
     size : int
         The size of the population to create.
     row_limits : list
         Lower and upper bounds on the number of rows a dataset can have.
     col_limits : list
         Lower and upper bounds on the number of columns a dataset can have.
+        Tuples can also be used to specify the min/maximum number of columns
+        there can be of each type in :code:`pdfs`.
     pdfs : list
-        Used to create the initial population. These classes represent the
-        distribution each column of a dataset can take. These distributions
-        should take values either from the real numbers or the integers.
-
-        By default, a random-parameter normal distribution is used. However,
-        user-defined classes can be used so long as they have a `sample` method
-        detailing how to sample from the distribution. For reproducibility,
-        methods using NumPy are encouraged as the seed for the GA is set using
-        `np.random.seed`.
+        Used to create the initial population and instruct the GA how a column
+        should be manipulated in a dataset. These classes represent the
+        distribution each column of a dataset can take. By default, a
+        random-parameter normal distribution is used. For reproducibility, a
+        user-defined class' :code:`sample` method should NumPy as the seed for
+        the GA is set using :code:`np.random.seed`.
     weights : list
         A probability distribution on how to select columns from
-        `pdfs`. If `None`, pdfs will be chosen uniformly.
+        :code:`pdfs`. If :code:`None`, pdfs will be chosen uniformly.
     stop : func
-        A function which acts as a stopping condition on the fitness of the
-        current population. If `None`, the GA will run to its maximum number of
+        A function which acts as a stopping condition on the GA. Such functions
+        should take only the fitness of the current population as argument.
+        If :code:`None`, the GA will run up until its maximum number of
         iterations.
     max_iter : int
         The maximum number of iterations to be carried out before terminating.
@@ -66,28 +67,28 @@ def run_algorithm(
         parents.
     lucky_prop : float
         The proportion of a population from which to sample some "lucky"
-        potential parents.
+        potential parents. Set to zero as standard.
     crossover_prob : float
-        The probability with which to sample from the first parent over the
-        second in a crossover operation.
+        The probability with which to sample dimensions from the first parent
+        over the second in a crossover operation. Defaults to 0.5.
     mutation_prob : float
-        The probability of a particular "allele" in an individual being mutated.
+        The probability of a particular characteristic in an individual's
+        dataset being mutated.
     maximise : bool
-        Determines whether `fitness` is a function to be maximised or not.
-        Fitness scores are minimised by default as they are based on the
-        objective function of an algorithm.
+        Determines whether :code:`fitness` is a function to be maximised or not.
+        Fitness scores are minimised by default.
     seed : int
-        The seed for a pseudo-random number generator for the run of the
-        algorithm. If `None`, no seed is set.
+        The seed for a particular run of the genetic algorithm. If :code:`None`,
+        no seed is set.
 
     Returns
     -------
     population : list
         The final population.
-    pop_fitness : array
-        The fitness of `population`.
+    pop_fitness : list
+        The fitness of all individuals in the final population.
     all_populations : list
-        Every individual in each generation.
+        Every population in each generation.
     all_fitnesses : list
         Every individual's fitness in each generation.
     """
@@ -101,10 +102,9 @@ def run_algorithm(
 
     pop_fitness = get_fitness(fitness, population)
 
+    converged = False
     if stop:
         converged = stop(pop_fitness)
-    else:
-        converged = False
 
     itr = 0
     all_populations, all_fitnesses = [population], [pop_fitness]

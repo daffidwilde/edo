@@ -1,6 +1,8 @@
 *_build*
 .cache/
+*coverage*
 *egg-info*
+htmlcov/
 *.hypothesis/*
 *ipynb*
 *pyc

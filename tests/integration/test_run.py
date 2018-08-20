@@ -1,6 +1,6 @@
 """ Test the algorithm as a whole. """
 
-from hypothesis import given
+from hypothesis import given, settings
 from hypothesis.strategies import booleans
 
 import pandas as pd
@@ -10,8 +10,8 @@ import genetic_data as gd
 from genetic_data.individual import Individual
 from genetic_data.pdfs import Gamma, Normal, Poisson
 
-from test_util.trivials import trivial_fitness
-from test_util.parameters import PROB, SHAPES, SIZE, WEIGHTS
+from .util.trivials import trivial_fitness, trivial_stop
+from .util.parameters import PROB, SHAPES, SIZE, WEIGHTS
 
 HALF_PROB = PROB.filter(lambda x: x > 0.5)
 
@@ -27,8 +27,9 @@ HALF_PROB = PROB.filter(lambda x: x > 0.5)
     crossover_prob=PROB,
     mutation_prob=PROB,
     maximise=booleans(),
-    seed=SIZE.filter(lambda x: x < 10),
+    seed=SIZE,
 )
+@settings(deadline=None)
 def test_run_algorithm(
     size,
     row_limits,
@@ -46,7 +47,7 @@ def test_run_algorithm(
     of them/their fitnesses correctly. """
 
     pdfs = [Gamma, Normal, Poisson]
-    stop = None
+    stop = trivial_stop
 
     pop, fit, all_pops, all_fits = gd.run_algorithm(
         trivial_fitness,
@@ -73,7 +74,7 @@ def test_run_algorithm(
         assert len(scores) == size
 
         for individual in population:
-            metadata, dataframe = individual
+            dataframe, metadata = individual
 
             assert isinstance(individual, Individual)
             assert isinstance(metadata, list)
