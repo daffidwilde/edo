@@ -1,6 +1,7 @@
 *_build*
 .cache/
 *coverage*
+dist
 *egg-info*
 htmlcov/
 *.hypothesis/*
