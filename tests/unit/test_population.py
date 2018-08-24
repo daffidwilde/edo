@@ -7,15 +7,15 @@ import pytest
 from hypothesis import given, settings
 from hypothesis.strategies import integers
 
-from genetic_data.population import (
+from edo.population import (
     create_initial_population,
     create_new_population,
 )
 
-from genetic_data.fitness import get_fitness
-from genetic_data.operators import selection
-from genetic_data.individual import Individual
-from genetic_data.pdfs import Gamma, Normal, Poisson
+from edo.fitness import get_fitness
+from edo.operators import selection
+from edo.individual import Individual
+from edo.pdfs import Gamma, Normal, Poisson
 
 from .util.parameters import POPULATION, OFFSPRING
 from .util.trivials import trivial_fitness

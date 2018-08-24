@@ -5,10 +5,10 @@ from hypothesis.strategies import booleans
 
 import pandas as pd
 
-import genetic_data as gd
+import edo
 
-from genetic_data.individual import Individual
-from genetic_data.pdfs import Gamma, Normal, Poisson
+from edo.individual import Individual
+from edo.pdfs import Gamma, Normal, Poisson
 
 from .util.trivials import trivial_fitness, trivial_stop
 from .util.parameters import PROB, SHAPES, SIZE, WEIGHTS
@@ -49,7 +49,7 @@ def test_run_algorithm(
     pdfs = [Gamma, Normal, Poisson]
     stop = trivial_stop
 
-    pop, fit, all_pops, all_fits = gd.run_algorithm(
+    pop, fit, all_pops, all_fits = edo.run_algorithm(
         trivial_fitness,
         size,
         row_limits,
@@ -64,6 +64,7 @@ def test_run_algorithm(
         mutation_prob,
         maximise=maximise,
         seed=seed,
+        fitness_kwargs={"arg": None},
     )
 
     assert len(pop) == size

@@ -29,7 +29,6 @@ def _fillna(dataframe, metadata):
     associated with it. """
 
     for i, col in enumerate(dataframe.columns):
-        print('i: ', i, 'col: ', col)
         data = dataframe[col]
         pdf = metadata[i]
         if data.isnull().any():

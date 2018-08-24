@@ -7,11 +7,11 @@ import pytest
 
 from hypothesis import settings
 
-from genetic_data.fitness import get_fitness
-from genetic_data.individual import Individual, create_individual
-from genetic_data.operators import crossover, mutation, selection
-from genetic_data.pdfs import Gamma, Normal, Poisson
-from genetic_data.population import create_initial_population
+from edo.fitness import get_fitness
+from edo.individual import Individual, create_individual
+from edo.operators import crossover, mutation, selection
+from edo.pdfs import Gamma, Normal, Poisson
+from edo.population import create_initial_population
 
 from .util.parameters import (
     FITNESS,
