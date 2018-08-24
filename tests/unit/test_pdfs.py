@@ -7,7 +7,7 @@ import pytest
 from hypothesis import given
 from hypothesis.strategies import floats, integers, tuples
 
-from genetic_data.pdfs import Distribution, Gamma, Normal, Bernoulli, Poisson
+from edo.pdfs import Distribution, Gamma, Normal, Bernoulli, Poisson
 
 
 LIMITS = (

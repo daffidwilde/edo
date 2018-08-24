@@ -2,8 +2,8 @@
 
 import pandas as pd
 
-from genetic_data.individual import Individual, create_individual
-from genetic_data.pdfs import Gamma, Normal, Poisson
+from edo.individual import Individual, create_individual
+from edo.pdfs import Gamma, Normal, Poisson
 
 from .util.parameters import (
     INTEGER_INDIVIDUAL,

@@ -2,10 +2,10 @@
 
 import numpy as np
 
-from genetic_data.pdfs import Normal
-from genetic_data.fitness import get_fitness
-from genetic_data.operators import selection
-from genetic_data.population import (
+from .pdfs import Normal
+from .fitness import get_fitness
+from .operators import selection
+from .population import (
     create_initial_population,
     create_new_population,
 )
