@@ -1,11 +1,11 @@
-How to contribute
-=================
+Contributing to the library
+===========================
 
-Contributions are always welcome! Whether they come in the form of providing a
-fix for a current `issue <https://github.com/daffidwilde/edo/issues>`_,
-reporting a bug, a contribution to the code itself, or a discussion of the
-library as a whole. Pull requests (PRs) will be reviewed, and collaborative work
-is always encouraged!
+Whether they come in the form of providing a fix for a current `issue
+<https://github.com/daffidwilde/edo/issues>`_, reporting a bug, an enhancement
+to the code itself, or a discussion of the library as a whole, contributions are
+always welcome. Pull requests (PRs) will be reviewed, and collaborative work is
+encouraged!
 
 To make a contribution via a PR, follow these steps:
 

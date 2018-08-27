@@ -18,11 +18,12 @@ class Distribution(object):
 
         out = []
         for key, val in self.__dict__.items():
-            if key != 'name':
+            if key != "name":
                 out.append(key)
             out.append(val)
 
         return tuple(out)
+
 
 # ========================
 # CONTINUOUS DISTRIBUTIONS
@@ -37,7 +38,7 @@ class Gamma(Distribution):
 
     def __init__(self):
 
-        self.name = 'Gamma'
+        self.name = "Gamma"
         self.alpha = np.random.uniform(*self.alpha_limits)
         self.theta = np.random.uniform(*self.theta_limits)
 
@@ -61,7 +62,7 @@ class Normal(Distribution):
 
     def __init__(self):
 
-        self.name = 'Normal'
+        self.name = "Normal"
         self.mean = np.random.uniform(*self.mean_limits)
         self.std = np.random.uniform(*self.std_limits)
 
@@ -89,7 +90,7 @@ class Bernoulli(Distribution):
 
     def __init__(self):
 
-        self.name = 'Bernoulli'
+        self.name = "Bernoulli"
         self.prob = np.random.uniform(*self.prob_limits)
 
     def __repr__(self):
@@ -110,7 +111,7 @@ class Poisson(Distribution):
 
     def __init__(self):
 
-        self.name = 'Poisson'
+        self.name = "Poisson"
         self.lam = np.random.uniform(*self.lam_limits)
 
     def __repr__(self):
