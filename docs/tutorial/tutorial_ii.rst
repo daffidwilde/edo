@@ -39,7 +39,7 @@ settings the same.
 
 Import the libraries::
 
-    >>> import genetic_data as gd
+    >>> import edo
     >>> import matplotlib.pyplot as plt
 
 First we define the new fitness function::
@@ -50,7 +50,7 @@ First we define the new fitness function::
 Then we adjust the limits on the number of rows a dataset can take and run the
 GA again with :code:`sample_mean_squared` as its fitness function::
 
-    >>> pop, fit, all_pops, all_fits = gd.run_algorithm(
+    >>> pop, fit, all_pops, all_fits = edo.run_algorithm(
     ...     fitness=sample_mean_squared,
     ...     size=100,
     ...     row_limits=[5, 50],

@@ -43,7 +43,7 @@ So, to formulate and solve this problem in Edo we do the following:
 
 First, import the library::
 
-    >>> import genetic_data as gd
+    >>> import edo
 
 Define fitness::
 
@@ -52,7 +52,7 @@ Define fitness::
 
 Set up and run the GA::
 
-    >>> pop, fit, all_pops, all_fits = gd.run_algorithm(
+    >>> pop, fit, all_pops, all_fits = edo.run_algorithm(
     ...     fitness=x_squared,
     ...     size=100,`
     ...     row_limits=[1, 1],
