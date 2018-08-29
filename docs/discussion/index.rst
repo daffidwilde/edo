@@ -4,9 +4,7 @@ Discussion
 .. toctree::
    :maxdepth: 2
 
-   crossover.rst
    individual.rst
-   mutation.rst
+   operators/index.rst
    seed.rst
-   selection.rst
    smoothing.rst
