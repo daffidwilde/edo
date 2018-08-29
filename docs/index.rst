@@ -6,18 +6,18 @@
 Welcome to Edo's documentation!
 ===============================
 
-Edo provides a framework for **E**\volutionary **D**\ataset **O**\ptimisation.
-That is, optimising the generation of artificial datasets
-through the application of evolutionary dynamics and a genetic algorithm (GA).
+Edo is for **E**\volutionary **D**\ataset **O**\ptimisation.
+
+That is, Edo provides a framework for optimising the generation of artificial
+datasets through the application of a genetic algorithm.
 
 Consider a specific algorithm, and its objective function. Edo allows you to
-pass that function to a GA as its fitness function. The GA will then go on to
-create generations of datasets for which that algorithm performs increasingly
-well at.
-
-Through this approach, a user can not only create banks of effective datasets
-for their own use, but is also able to determine and study the preferred
-characteristics of such datasets.
+pass that function to its genetic algorithm (GA), and then use it to go on and
+create generations of datasets for which your algorithm performs increasingly
+well at. Through this approach, you can not only create banks of effective
+datasets for your own use, but you are also able to determine and study the
+preferred characteristics of such datasets, giving an insight into why your
+algorithm performs well -- or not.
 
 .. toctree::
    :maxdepth: 2

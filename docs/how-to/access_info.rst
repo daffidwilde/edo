@@ -28,8 +28,4 @@ Then the dataframe can be accessed like this::
    :file: access_dataframe.csv
    :align: center
 
-And the metadata like this::
-
-    >>> individual.metadata
-    [Normal(mean=2.06, std=5.45), Poisson(lambda=9.64),
-     Poisson(lambda=6.67), Normal(mean=3.13, std=1.38)]
+.. include:: access_metadata.rst
