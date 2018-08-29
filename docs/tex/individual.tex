@@ -49,20 +49,22 @@
     \node (norm2) at (4.5, -3.25) {$N(-3.7, 0)$};
     \node (uniform1) at (0, -3.25) {$U(1.2, 3.2)$};
 
-    \draw[->] ([xshift=-0.1cm] normal.south) to [out=270, in=90]
+    \draw[->, thick] ([xshift=-0.1cm] normal.south) to [out=270, in=90]
         ([yshift=1cm] norm1);
-    \draw[->] ([yshift=-0.75cm] norm1.south) -- (-4.5, -5.5);
+    \draw[->, thick] ([yshift=-0.75cm] norm1.south) -- (-4.5, -5.5);
 
-    \draw[->] ([xshift=0.1cm] normal.south) to [out=270, in=90]
-        ([yshift=1cm] norm2) node[right=20pt, yshift=20pt] {\color{blue}
-        \scriptsize Sample distribution parameters};
-    \draw[->] ([yshift=-0.75cm] norm2.south) -- (4.5, -5.5) node[right=20pt,
-        yshift=15pt] {\color{blue} \scriptsize Sample values from distribution};
+    \draw[->, thick] ([xshift=0.1cm] normal.south) to [out=270, in=90]
+        ([yshift=1cm] norm2) node[right=20pt, yshift=20pt] {%
+        \scriptsize Sample distribution parameters
+    };
+    \draw[->, thick] ([yshift=-0.75cm] norm2.south) -- (4.5, -5.5)
+        node[right=20pt, yshift=15pt] {%
+        \scriptsize Sample values from distribution
+    };
+    \draw[->, thick] (uniform) to [out=270, in=90] ([yshift=1cm] uniform1);
+    \draw[->, thick] ([yshift=-0.75cm] uniform1.south) -- (0, -5.5);
 
-    \draw[->] (uniform) to [out=270, in=90] ([yshift=1cm] uniform1);
-    \draw[->] ([yshift=-0.75cm] uniform1.south) -- (0, -5.5);
-
-    \draw[decorate, decoration={brace, amplitude=10pt}] (-7, -10) -- (-7, -6)
+    \draw[decorate, decoration={brace, amplitude=10pt}, thick] (-7, -10) -- (-7, -6)
     node[midway, left=20pt] {\small Columns of the dataset};
 
 \end{tikzpicture}
