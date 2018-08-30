@@ -7,7 +7,7 @@ with open("README.rst", "r") as readme_file:
 
 setup(
     name="edo",
-    version="0.0.1",
+    version="0.0.1a",
     description="A library for generating artificial datasets through genetic \
     evolution.",
     long_description=README,
