@@ -5,10 +5,7 @@ import numpy as np
 from .pdfs import Normal
 from .fitness import get_fitness
 from .operators import selection
-from .population import (
-    create_initial_population,
-    create_new_population,
-)
+from .population import create_initial_population, create_new_population
 
 
 def run_algorithm(
@@ -16,7 +13,7 @@ def run_algorithm(
     size,
     row_limits,
     col_limits,
-    pdfs=[Normal],
+    pdfs,
     weights=None,
     stop=None,
     max_iter=100,

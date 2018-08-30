@@ -7,10 +7,7 @@ import pytest
 from hypothesis import given, settings
 from hypothesis.strategies import integers
 
-from edo.population import (
-    create_initial_population,
-    create_new_population,
-)
+from edo.population import create_initial_population, create_new_population
 
 from edo.fitness import get_fitness
 from edo.operators import selection
