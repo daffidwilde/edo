@@ -1,0 +1,4 @@
+.. _smoothing:
+
+Smoothing
+=========
