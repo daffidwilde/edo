@@ -7,3 +7,44 @@ should be integer.
 .. note::
    Without one, the GA here will just fall back on Numpy's innate pseudo-random
    number generator making any results inconsistent between runs.
+
+Consider the setting from the :ref:`first tutorial <refs-tutorial-i>`_. We will
+obtain inconsistent results by running the algorithm twice using two values of
+`seed`.:
+
+Run the algorithm with one seed::
+
+   >>> pop, fit, all_pops, all_fits = edo.run_algorithm(
+   ...     x_squared,
+   ...     size=100,
+   ...     row_limits=[1, 1],
+   ...     col_limits=[1, 1],
+   ...     pdfs=[Normal],
+   ...     max_iter=5,
+   ...     seed=0
+   ... )
+
+And again, with another seed::
+
+   >>> new_pop, new_fit, new_all_pops, new_all_fits = edo.run_algorithm(
+   ...     x_squared,
+   ...     size=100,
+   ...     row_limits=[1, 1],
+   ...     col_limits=[1, 1],
+   ...     pdfs=[Normal],
+   ...     max_iter=5,
+   ...     seed=101
+   ... )
+
+Now, by looking at the first individual in the final population for each run, we
+see they are different::
+
+   >>> pop[0], new_pop[0]
+   (Individual(dataframe=          0
+    0 -0.157215, metadata=[Normal(mean=-9.62, std=6.18)]),
+    Individual(dataframe=          0
+    0  0.211628, metadata=[Normal(mean=3.89, std=4.14)]))
+
+For further verification, we can look at the fitness progression::
+
+.. Put in code and image for side-by-side boxplots.
