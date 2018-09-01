@@ -29,7 +29,7 @@ a maximum of 5 iterations.
 Formulation
 -----------
 
-So, to formulate and solve this problem in Edo we do the following:
+So, to formulate this problem to be solved in Edo we do the following:
 
 First, import the library::
 
@@ -40,7 +40,7 @@ Define our fitness function::
     >>> def x_squared(df):
     ...     return df.iloc[0, 0] ** 2
 
-Set up and run the GA::
+Set up and run the algorithm::
 
     >>> pop, fit, all_pops, all_fits = edo.run_algorithm(
     ...     fitness=x_squared,
@@ -58,9 +58,9 @@ simulation. These are held in the variables :code:`pop`, :code:`fit`,
 :code:`all_pops` and :code:`all_fits` respectively.
 
 .. note::
-    Here, many of the parameters for the GA are using their default settings.
-    Discussion on how to customise these parameters is found in the
-    :ref:`how-to` section, and their definitions are listed in :ref:`params`.
+    Here, many of the parameters are using their default settings. Discussion on
+    how to customise these parameters is found in the :ref:`how-to` section, and
+    their definitions are listed in :ref:`params`.
 
 Visualising results
 -------------------
