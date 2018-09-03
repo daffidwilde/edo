@@ -8,9 +8,9 @@ discrete and the other continuous.
 Formulation
 -----------
 
-The objective function for such an algorithm would simply be the square of
-the r-value, or correlation coefficient, between the two sets. We can obtain
-this objective function using SciPy::
+An objective function for such an algorithm could simply be the square of
+the r-value, or the coefficient of determination, between the two sets. We can
+obtain this objective function using SciPy::
 
    >>> from scipy.stats import linregress
 
@@ -81,10 +81,10 @@ We can also take a look at the best individual in the final population::
 
    >>> ax.scatter(df.select_dtypes('int'), df.select_dtypes('float'))
    >>> ax.annotate(
-   ...     f"r = {np.round(fit[best], 4)}",
+   ...     f'r = {np.round(fit[best], 4)}',
    ...     xy=[10.5, 7.6],
    ...     fontsize=20,
-   ...     bbox=dict(boxstyle="round", fc="0.9")
+   ...     bbox=dict(boxstyle='round', fc='0.9')
    ... )
    
    >>> ax.set_xlabel('Discrete column')
@@ -92,7 +92,7 @@ We can also take a look at the best individual in the final population::
 
    >>> plt.show()
 
-.. image:: ../_static/tutorial_iii_ind_plot.png
+.. image:: ../_static/tutorial_iii_ind.png
    :width: 100 %
    :align: center
    :alt: The best individual in the final population
