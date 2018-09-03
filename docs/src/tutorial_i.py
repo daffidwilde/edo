@@ -1,9 +1,9 @@
-""" Generate the plot for Example 1 in the docs. """
+""" Script for the first tutorial. """
 
 import matplotlib.pyplot as plt
-import numpy as np
 
 import edo
+from edo.pdfs import Normal
 
 
 def x_squared(df):
@@ -11,14 +11,15 @@ def x_squared(df):
 
 
 def main():
-    """ Run the GA in Tutorial 1 and generate a plot of all fitness scores in
-    each epoch. """
+    """ Run the GA in the first tutorial and generate a plot of all fitness
+    scores in each epoch against the theoretical fitness function. """
 
     pop, fit, all_pops, all_fits = edo.run_algorithm(
         fitness=x_squared,
         size=100,
         row_limits=[1, 1],
         col_limits=[1, 1],
+        pdfs=[Normal],
         max_iter=5,
         seed=0,
     )
@@ -27,7 +28,8 @@ def main():
         nrows=3, ncols=2, figsize=(30, 45), dpi=300, sharex=True, sharey=True
     )
 
-    x_data = np.linspace(-25, 25, 101)
+    xs = range(-25, 26)
+    ys = [x ** 2 for x in xs]
 
     for i in range(6):
 
@@ -41,7 +43,7 @@ def main():
         j = i % 2
         data = [[ind.dataframe.iloc[0, 0] for ind in all_pops[i]], all_fits[i]]
 
-        axes[j].plot(x_data, x_data ** 2, lw=3, zorder=-1)
+        axes[j].plot(xs, ys, lw=3, zorder=-1)
         axes[j].scatter(*data, s=200, color="orange")
 
         axes[j].set_title(f"Fitness scores in epoch {i}", size=24, pad=25)
