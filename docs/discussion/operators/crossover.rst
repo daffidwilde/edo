@@ -11,11 +11,8 @@ In Edo, the crossover operator returns exactly one individual from a pair of
 parents. Since an individual is defined by its dimensions and its values, an
 offspring inherits these characteristics in turn from its parents.
 
-Parameters
-----------
-
-.. automodule:: edo.operators
-   :members: crossover
+Parameters for the crossover operator and their definitions can be found
+:ref:`here <params-crossover>`.
 
 Example
 -------

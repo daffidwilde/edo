@@ -21,8 +21,5 @@ of noise is introduced which can increase convergence rates [Jebari2013]_.
    encouraged for particularly complex contexts where you can't obtain
    satisfactory results otherwise.
 
-Parameters
-----------
-
-.. automodule:: edo.operators
-   :members: selection
+Parameters for the selection operator and their definitions can be found
+:ref:`here <params-selection>`.
