@@ -34,6 +34,7 @@ So, to formulate this problem to be solved in Edo we do the following:
 First, import the library::
 
     >>> import edo
+    >>> from edo.pdfs import Normal
 
 Define our fitness function::
 
@@ -47,6 +48,7 @@ Set up and run the algorithm::
     ...     size=100,`
     ...     row_limits=[1, 1],
     ...     col_limits=[1, 1],
+    ...     pdfs=[Normal],
     ...     max_iter=5,
     ...     maximise=False,
     ...     seed=0
@@ -68,14 +70,12 @@ Visualising results
 To see the results of the GA (and whether it worked as expected) we will plot
 the fitnesses of all the individuals at each epoch (timestep).
 
-We'll do this using Matplotlib and NumPy, so let's import them first::
+We'll do this using Matplotlib so let's import that first::
 
     >>> import matplotlib.pyplot as plt
-    >>> import numpy as np
 
-Then using Matplotlib we can superimpose our theoretical fitness function (the
-solid blue line) with all of our observed fitness scores (the orange scatter
-points)::
+Then we can superimpose our theoretical fitness function (the solid blue line)
+with all of our observed fitness scores (the orange scatter points)::
 
     >>> fig, (top, middle, bottom) = plt.subplots(
     ...     nrows=3,
@@ -86,7 +86,8 @@ points)::
     ...     sharey=True
     ... )
 
-    >>> xs = np.linspace(-25, 25, 101)
+    >>> xs = range(-25, 26)
+    >>> ys = [x ** 2 for x in xs]
 
     >>> for i in range(6):
     ...
@@ -100,7 +101,7 @@ points)::
     ...     j = i % 2
     ...     data = [[ind.dataframe.iloc[0, 0] for ind in all_pops[i]], all_fits[i]]
     ...
-    ...     axes[j].plot(xs, xs ** 2, lw=3, zorder=-1)
+    ...     axes[j].plot(xs, ys, lw=3, zorder=-1)
     ...     axes[j].scatter(*data, s=200, color='orange')
     ...
     ...     axes[j].set_title(f'Fitness scores in epoch {i}', size=24, pad=25)
