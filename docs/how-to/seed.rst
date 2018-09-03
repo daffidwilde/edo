@@ -8,7 +8,7 @@ should be integer.
    Without one, the GA here will just fall back on Numpy's innate pseudo-random
    number generator making any results inconsistent between runs.
 
-Consider the setting from the :ref:`first tutorial <refs-tutorial-i>`_. We will
+Consider the setting from the :ref:`first tutorial <refs-tutorial-i>`. We will
 obtain inconsistent results by running the algorithm twice using two values of
 `seed`.:
 
