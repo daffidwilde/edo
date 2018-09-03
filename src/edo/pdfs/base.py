@@ -1,6 +1,7 @@
 """ .. Base inheritance class for all distributions. """
 
-class Distribution():
+
+class Distribution:
     """ A base class for all currently implemented distributions and those
     defined by users.
 

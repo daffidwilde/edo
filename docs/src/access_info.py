@@ -17,12 +17,12 @@ meta = individual.metadata
 df.round(4).to_csv("../how-to/access_dataframe.csv")
 
 with open("../how-to/access_metadata.rst", "w") as ind_file:
-    string = '.. :orphan:\n\n'
+    string = ".. :orphan:\n\n"
     string += "And the metadata like this::\n\n    "
-    string += '>>> individual.metadata \n    '
-    string += '['
+    string += ">>> individual.metadata \n    "
+    string += "["
     for col in meta:
-        string += col.__repr__() + ', '
+        string += col.__repr__() + ", "
     string = string[:-2]
-    string += '] \n    '
+    string += "] \n    "
     ind_file.write(string)

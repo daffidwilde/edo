@@ -4,6 +4,7 @@ import numpy as np
 
 from .base import Distribution
 
+
 class Gamma(Distribution):
     """ Continuous column class given by the gamma distribution.
 

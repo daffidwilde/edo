@@ -4,6 +4,7 @@ import numpy as np
 
 from .base import Distribution
 
+
 class Bernoulli(Distribution):
     """ Discrete column class given by the Bernoulli distribution. That is, a
     binomial distribution with exactly one trial.
