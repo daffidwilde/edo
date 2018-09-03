@@ -50,7 +50,6 @@ Set up and run the algorithm::
     ...     col_limits=[1, 1],
     ...     pdfs=[Normal],
     ...     max_iter=5,
-    ...     maximise=False,
     ...     seed=0
     ... )
 

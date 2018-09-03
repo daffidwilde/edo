@@ -31,7 +31,7 @@ limits within :code:`col_limits`::
    >>> from edo.pdfs import Normal, Poisson
 
    >>> pop, fit, all_pops, all_fits = edo.run_algorithm(
-   ...     fitness=linregress_fitness,
+   ...     fitness=r_squared,
    ...     size=100,
    ...     row_limits=[10, 50],
    ...     col_limits=[(1, 1), (1, 1)],
@@ -82,7 +82,7 @@ We can also take a look at the best individual in the final population::
    >>> ax.scatter(df.select_dtypes('int'), df.select_dtypes('float'))
    >>> ax.annotate(
    ...     f'r = {np.round(fit[best], 4)}',
-   ...     xy=[10.5, 7.6],
+   ...     xy=[2, -2],
    ...     fontsize=20,
    ...     bbox=dict(boxstyle='round', fc='0.9')
    ... )

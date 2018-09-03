@@ -59,7 +59,7 @@ def main():
     ax.set_ylabel("Continuous column")
     ax.annotate(
         s=f"r = {np.round(fit[best], 4)}",
-        xy=[10.5, 7.6],
+        xy=[2, -2],
         fontsize=20,
         bbox=dict(boxstyle="round", fc="0.9"),
     )
