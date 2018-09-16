@@ -25,11 +25,8 @@ mutated in the following way:
    replacing it with a single value sampled from the distribution associated
    with its column.
 
-Parameters
-----------
-
-.. automodule:: edo.operators
-   :members: mutation
+Parameters for the mutation operator and their definitions can be found
+:ref:`here <params-mutation>`.
 
 Example
 -------
