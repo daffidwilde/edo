@@ -59,7 +59,7 @@ def main():
 
     plt.tight_layout(pad=5)
     plt.savefig(
-        "../_static/tutorial_i_plot.svg", format='svg', transparent=True
+        "../_static/tutorial_i_plot.svg", format="svg", transparent=True
     )
 
 

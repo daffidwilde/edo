@@ -44,8 +44,9 @@ def main():
         label.set_fontsize(20)
 
     plt.tight_layout()
-    plt.savefig("../_static/tutorial_iii_plot.svg", format='svg',
-            transparent=True)
+    plt.savefig(
+        "../_static/tutorial_iii_plot.svg", format="svg", transparent=True
+    )
 
     # Best final individual
     fig, ax = plt.subplots(nrows=1, figsize=(12, 8), dpi=300)
@@ -66,8 +67,9 @@ def main():
     )
 
     plt.tight_layout()
-    plt.savefig("../_static/tutorial_iii_ind.svg", format='svg',
-            transparent=True)
+    plt.savefig(
+        "../_static/tutorial_iii_ind.svg", format="svg", transparent=True
+    )
 
 
 if __name__ == "__main__":
