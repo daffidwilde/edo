@@ -44,8 +44,10 @@ def main():
         label.set_fontsize(20)
 
     plt.tight_layout()
-    plt.savefig("../_static/tutorial_ii_plot.svg", format='svg',
-            transparent=True)
+    plt.savefig(
+        "../_static/tutorial_ii_plot.svg", format="svg", transparent=True
+    )
+
 
 if __name__ == "__main__":
     main()
