@@ -21,7 +21,7 @@ condition on the mean fitness of a population::
     >>> def x_squared(df):
     ...     return df.iloc[0, 0] ** 2
 
-    >>> def mean_stopping(population_fitness, tolerance=1e-1):
+    >>> def mean_stopping(population_fitness, tolerance=0.1):
     ...     """ Return `True` when the mean fitness score is below a tolerance
     ...     level. Otherwise return `False`. The tolerance is 0.1 by default.
     ...     """
@@ -31,7 +31,8 @@ condition on the mean fitness of a population::
 
 Then we simply pass that function to :code:`run_algorithm`, like so::
 
-    >>> pop, fit, all_pops, all_fits = gd.run_algorithm(
+    >>> import edo
+    >>> pop, fit, all_pops, all_fits = edo.run_algorithm(
     ...     fitness=x_squared,
     ...     size=100,
     ...     row_limits=[1, 1],

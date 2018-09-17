@@ -2,6 +2,9 @@
 .cache/
 *coverage*
 dist
+docs/tex/*.aux
+docs/tex/*.log
+docs/tex/*.pdf
 *egg-info*
 htmlcov/
 *.hypothesis/*

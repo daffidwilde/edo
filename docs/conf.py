@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# GeneticData documentation build configuration file, created by
+# Edo documentation build configuration file, created by
 # sphinx-quickstart on Mon Jul 16 21:59:41 2018.
 #
 # This file is execfile()d with the current directory set to its
@@ -37,7 +37,12 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.coverage",
     "sphinx.ext.mathjax",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.autosummary",
+    "numpydoc",
 ]
+
+numpydoc_show_class_members = False
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -52,7 +57,7 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = "GeneticData"
+project = "Edo"
 copyright = "2018, Henry Wilde"
 author = "Henry Wilde"
 
@@ -118,7 +123,7 @@ html_sidebars = {
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "GeneticDatadoc"
+htmlhelp_basename = "Edodoc"
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -142,13 +147,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (
-        master_doc,
-        "GeneticData.tex",
-        "GeneticData Documentation",
-        "Henry Wilde",
-        "manual",
-    )
+    (master_doc, "Edo.tex", "Edo Documentation", "Henry Wilde", "manual")
 ]
 
 
@@ -156,9 +155,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    (master_doc, "geneticdata", "GeneticData Documentation", [author], 1)
-]
+man_pages = [(master_doc, "edo", "Edo Documentation", [author], 1)]
 
 
 # -- Options for Texinfo output -------------------------------------------
@@ -169,10 +166,10 @@ man_pages = [
 texinfo_documents = [
     (
         master_doc,
-        "GeneticData",
-        "GeneticData Documentation",
+        "Edo",
+        "Edo Documentation",
         author,
-        "GeneticData",
+        "Edo",
         "One line description of project.",
         "Miscellaneous",
     )

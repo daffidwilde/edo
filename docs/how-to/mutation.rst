@@ -1,14 +1,14 @@
 Customise the mutation process
 ------------------------------
 
-Since the way in which individuals are :ref:`mutated <mutate>` is fixed, the
-only way you can alter the mutation process is using the mutation probability.
-That is done using the :code:`mutation_prob` parameter in :code:`run_algorithm`.
+The mutation process can be altered by adjusting the mutation probability. That
+is done using the :code:`mutation_prob` parameter in :code:`run_algorithm`.
 
-Using the example above, we can (for instance) remove all mutation by setting
-this parameter to be zero::
+Using the example from the :ref:`first tutorial <refs-tutorial-i>`, we can (for
+instance) remove all mutation by setting this parameter to be zero::
 
-    >>> pop, fit, all_pops, all_fits = gd.run_algorithm(
+    >>> import edo
+    >>> pop, fit, all_pops, all_fits = edo.run_algorithm(
     ...     fitness=x_squared,
     ...     size=100,
     ...     row_limits=[1, 1],
