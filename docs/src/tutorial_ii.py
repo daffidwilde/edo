@@ -47,6 +47,5 @@ def main():
     plt.savefig("../_static/tutorial_ii_plot.svg", format='svg',
             transparent=True)
 
-
 if __name__ == "__main__":
     main()
