@@ -13,3 +13,4 @@ problems. Before that, however, the library needs to be installed.
    installation.rst
    tutorial_i.rst
    tutorial_ii.rst
+   tutorial_iii.rst

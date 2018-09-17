@@ -1,11 +1,11 @@
 Access information about an individual
 --------------------------------------
 
-Individuals are defined by pairs in this GA. Each pair contains a
-:code:`pandas.DataFrame` and a list of metadata about how the columns of that
+Individuals are defined by pairs in Edo. Each pair contains a
+:class:`pandas.DataFrame` and a list of metadata about how the columns of that
 dataframe were made.
 
-You can access each of these things in the same way you would class attributes.
+You can access each of these objects in the same way you would with attributes.
 To demonstrate, let's create an individual::
 
     >>> import numpy as np

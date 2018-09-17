@@ -23,8 +23,8 @@ def selection(population, pop_fitness, best_prop, lucky_prop, maximise=False):
         The proportion of lucky individuals in :code:`population` to be
         selected.
     maximise : bool, optional
-        Determines whether an individual's fitness should be minimal or not.
-        Defaults to minimise.
+        Determines whether an individual's fitness should be maximal or not.
+        Defaults to :code:`False`.
 
     Returns
     -------

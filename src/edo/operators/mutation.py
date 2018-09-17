@@ -68,7 +68,8 @@ def _mutate_values(dataframe, metadata, prob):
 def mutation(individual, prob, row_limits, col_limits, pdfs, weights=None):
     """ Mutate an individual. Here, the characteristics of an individual can be
     split into two parts: their dimensions, and their values. Each of these
-    parts is mutated in a different way using the same probability, `prob`.
+    parts is mutated in a different way using the same probability,
+    :code:`prob`.
 
     Parameters
     ----------

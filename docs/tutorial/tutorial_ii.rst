@@ -22,10 +22,10 @@ This problem is a little more complex than optimising a function like
 maximum number of iterations to 25. Other than that, we'll keep all the other
 settings the same.
 
-First, import the libraries::
+First, import the library and distribution class::
 
     >>> import edo
-    >>> import matplotlib.pyplot as plt
+    >>> from edo.pdfs import Normal
 
 Now we define the fitness function, incorporating some :ref:`smoothing
 <smoothing>` to help account for the random sampling::
@@ -45,6 +45,7 @@ GA again with our new fitness function::
     ...     size=100,
     ...     row_limits=[5, 50],
     ...     col_limits=[1, 1],
+    ...     pdfs=[Normal],
     ...     max_iter=25,
     ...     seed=0
     ... )
@@ -59,6 +60,8 @@ instead, let us consider how the fitnesses are distributed in each timestep.
 
 We'll do this using boxplots, and to discern between between population
 fitnesses in later timesteps, we will use a logarithmic scale::
+
+    >>> import matplotlib.pyplot as plt
 
     >>> fig, ax = plt.subplots(1, figsize=(32, 12), dpi=300)
 
@@ -77,7 +80,7 @@ fitnesses in later timesteps, we will use a logarithmic scale::
 
 Running the above code gives the following plot:
 
-.. image:: ../_static/tutorial_ii_plot.png
+.. image:: ../_static/tutorial_ii_plot.svg
    :width: 100 %
    :align: center
    :alt: Fitness scores over the duration of the GA
