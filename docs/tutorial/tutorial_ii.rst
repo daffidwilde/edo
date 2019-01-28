@@ -62,21 +62,20 @@ We'll do this using boxplots, and to discern between between population
 fitnesses in later timesteps, we will use a logarithmic scale::
 
     >>> import matplotlib.pyplot as plt
-
     >>> fig, ax = plt.subplots(1, figsize=(32, 12), dpi=300)
 
-    >>> ax.boxplot(all_fits, positions=range(len(all_fits)), sym='.', showmeans=True)
+    >>> ax.boxplot(all_fits, positions=range(len(all_fits)), sym='.', showmeans=True) #doctest:+SKIP
 
-    >>> ax.set_title(f'Fitness scores in each epoch', size=24, pad=25)
-    >>> ax.set_yscale('log')
-    >>> ax.set_xlabel('Epoch', size=24)
-    >>> ax.set_ylabel(r'$\log(f(X))$', size=24)
+    >>> ax.set_title(f'Fitness scores in each epoch', size=24, pad=25) #doctest:+SKIP
+    >>> ax.set_yscale('log') #doctest:+SKIP
+    >>> ax.set_xlabel('Epoch', size=24) #doctest:+SKIP
+    >>> ax.set_ylabel(r'$\log(f(X))$', size=24) #doctest:+SKIP
 
     >>> for label in ax.get_xticklabels() + ax.get_yticklabels():
     ...     label.set_fontsize(20)
 
     >>> plt.tight_layout()
-    >>> plt.show()
+    >>> plt.show() #doctest:+SKIP
 
 Running the above code gives the following plot:
 

@@ -45,7 +45,7 @@ Set up and run the algorithm::
 
     >>> pop, fit, all_pops, all_fits = edo.run_algorithm(
     ...     fitness=x_squared,
-    ...     size=100,`
+    ...     size=100,
     ...     row_limits=[1, 1],
     ...     col_limits=[1, 1],
     ...     pdfs=[Normal],
@@ -88,7 +88,7 @@ with all of our observed fitness scores (the orange scatter points)::
     >>> xs = range(-25, 26)
     >>> ys = [x ** 2 for x in xs]
 
-    >>> for i in range(6):
+    >>> for i in range(6): #doctest:+SKIP
     ...
     ...     if i < 2:
     ...         axes = top
@@ -110,7 +110,7 @@ with all of our observed fitness scores (the orange scatter points)::
     ...         axes[j].set_ylabel('Fitness', size=24)
 
     >>> plt.tight_layout(pad=5)
-    >>> plt.show()
+    >>> plt.show() #doctest:+SKIP
 
 The above code should give a figure like this:
 
@@ -119,4 +119,5 @@ The above code should give a figure like this:
    :align: center
    :alt: Fitness scores of every individual
 
-So the GA has successfully started converging towards zero. Good news!
+The GA has successfully started converging towards a population of zeros. Good
+news!
