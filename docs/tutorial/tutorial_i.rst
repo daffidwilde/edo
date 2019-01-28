@@ -50,7 +50,6 @@ Set up and run the algorithm::
     ...     col_limits=[1, 1],
     ...     pdfs=[Normal],
     ...     max_iter=5,
-    ...     maximise=False,
     ...     seed=0
     ... )
 
@@ -115,7 +114,7 @@ with all of our observed fitness scores (the orange scatter points)::
 
 The above code should give a figure like this:
 
-.. image:: ../_static/tutorial_i_plot.png
+.. image:: ../_static/tutorial_i_plot.svg
    :width: 100 %
    :align: center
    :alt: Fitness scores of every individual
