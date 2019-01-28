@@ -23,9 +23,12 @@ To demonstrate, let's create an individual::
 Then the dataframe can be accessed like this::
 
     >>> individual.dataframe
+               0   1  2          3
+    0   2.455133   8  2  13.795999
+    1   2.473556  13  0  -2.606494
+    2 -10.151318  10  2  -3.112364
 
-.. csv-table::
-   :file: access_dataframe.csv
-   :align: center
+And the metadata like this::
 
-.. include:: access_metadata.rst
+    >>> individual.metadata
+    [Normal(mean=1.86, std=8.44), Poisson(lam=8.92), Poisson(lam=0.99), Normal(mean=-1.23, std=9.88)]

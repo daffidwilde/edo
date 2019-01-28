@@ -23,9 +23,8 @@ Changing these bounds is as simple as redefining the class attributes::
 
     >>> Normal.mean_limits = [-5, 5]
     >>> Normal.std_limits = [0, 1]
-
     >>> Normal.mean_limits, Normal.std_limits
-    ([-5, 5], [0, 10])
+    ([-5, 5], [0, 1])
 
 Now all instances of normally distributed columns will have mean between -5 and
 5, and have standard deviation between 0 and 1.
