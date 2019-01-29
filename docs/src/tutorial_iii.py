@@ -44,8 +44,9 @@ def main():
         label.set_fontsize(20)
 
     plt.tight_layout()
-    plt.savefig("../_static/tutorial_iii_plot.svg", format='svg',
-            transparent=True)
+    plt.savefig(
+        "../_static/tutorial_iii_plot.svg", format="svg", transparent=True
+    )
 
     # Best final individual
     fig, ax = plt.subplots(nrows=1, figsize=(12, 8), dpi=300)
@@ -59,15 +60,16 @@ def main():
     ax.set_xlabel("Discrete column")
     ax.set_ylabel("Continuous column")
     ax.annotate(
-        s=f"r = {np.round(fit[best], 4)}",
+        s=r"$r^2$ " + f"= {np.round(fit[best], 4)}",
         xy=[2, -2],
         fontsize=20,
         bbox=dict(boxstyle="round", fc="0.9"),
     )
 
     plt.tight_layout()
-    plt.savefig("../_static/tutorial_iii_ind.svg", format='svg',
-            transparent=True)
+    plt.savefig(
+        "../_static/tutorial_iii_ind.svg", format="svg", transparent=True
+    )
 
 
 if __name__ == "__main__":
