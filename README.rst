@@ -1,7 +1,5 @@
-EDO
-***
-
-**E**\volutionary **D**\ataset **O**\ptimisation.
+Evolutionary Dataset Optimisation
+*********************************
 
 A library for generating artificial datasets through genetic evolution.
 =======================================================================
