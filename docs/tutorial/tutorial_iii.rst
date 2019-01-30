@@ -53,16 +53,16 @@ beneficial to not use a logarithmic scale::
 
    >>> ax.boxplot(
    ...     all_fits, positions=range(len(all_fits)), sym='.', showmeans=True
-   ... )
+   ... ) #doctest:+SKIP
 
-   >>> ax.set_title('Fitness scores in each epoch', size=24, pad=25)
-   >>> ax.set_xlabel('Epoch', size=24)
-   >>> ax.set_ylabel(r'$f(X)$', size=24)
+   >>> ax.set_title('Fitness scores in each epoch', size=24, pad=25) #doctest:+SKIP
+   >>> ax.set_xlabel('Epoch', size=24) #doctest:+SKIP
+   >>> ax.set_ylabel(r'$f(X)$', size=24) #doctest:+SKIP
 
    >>> for label in ax.get_xticklabels() + ax.get_yticklabels():
    ...     label.set_fontsize(20)
 
-   >>> plt.show()
+   >>> plt.show() #doctest:+SKIP
 
 .. image:: ../_static/tutorial_iii_plot.svg
    :width: 100 %
@@ -73,24 +73,24 @@ We can also take a look at the best individual in the final population::
 
    >>> import numpy as np
 
-   >>> best = np.argmin(fit)
+   >>> best = np.argmax(fit)
    >>> best_individual = pop[best]
    >>> df = best_individual.dataframe
 
    >>> fig, ax = plt.subplots(1, figsize=(12, 8), dpi=300)
 
-   >>> ax.scatter(df.select_dtypes('int'), df.select_dtypes('float'))
+   >>> ax.scatter(df.select_dtypes('int'), df.select_dtypes('float')) #doctest:+SKIP
    >>> ax.annotate(
    ...     s=r'$r^2$ + f' = {np.round(fit[best], 4)}',
    ...     xy=[2, -2],
    ...     fontsize=20,
    ...     bbox=dict(boxstyle='round', fc='0.9')
-   ... )
+   ... ) #doctest:+SKIP
    
-   >>> ax.set_xlabel('Discrete column')
-   >>> ax.set_ylabel('Continuous column')
+   >>> ax.set_xlabel('Discrete column') #doctest:+SKIP
+   >>> ax.set_ylabel('Continuous column') #doctest:+SKIP
 
-   >>> plt.show()
+   >>> plt.show() #doctest:+SKIP
 
 .. image:: ../_static/tutorial_iii_ind.svg
    :width: 100 %

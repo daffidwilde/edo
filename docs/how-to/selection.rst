@@ -11,12 +11,11 @@ random in each generation. Then, using the setting of the :ref:`first tutorial
 <refs-tutorial-i>`, we can set :code:`best_prop` to be zero, and
 :code:`lucky_prop` to be some non-negative value. Let's say that value is 0.25::
 
-    >>> import edo
-    >>> from edo.pdfs import Normal
-
     >>> def x_squared(df):
     ...     return df.iloc[0, 0] ** 2
 
+    >>> import edo
+    >>> from edo.pdfs import Normal
     >>> pop, fit, all_pops, all_fits = edo.run_algorithm(
     ...     fitness=x_squared,
     ...     size=100,

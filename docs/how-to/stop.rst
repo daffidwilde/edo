@@ -33,7 +33,6 @@ Then we simply pass that function to :code:`run_algorithm`, like so::
 
     >>> import edo
     >>> from edo.pdfs import Normal
-
     >>> pop, fit, all_pops, all_fits = edo.run_algorithm(
     ...     fitness=x_squared,
     ...     size=100,

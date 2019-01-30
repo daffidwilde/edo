@@ -10,5 +10,4 @@ for root, dirs, files in os.walk("./docs/"):
             with open(f, "r") as rst:
                 text = str(rst.read())
                 if text.startswith(".. :orphan:"):
-                    print(f)
                     collect_ignore.append(f)

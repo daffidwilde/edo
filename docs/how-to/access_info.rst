@@ -21,6 +21,15 @@ To demonstrate, let's create an individual::
     ...     weights=None
     ... )
 
-.. include:: access_dataframe.rst
+Then the dataframe can be accessed like this::
 
-.. include:: access_metadata.rst
+    >>> individual.dataframe
+               0   1  2          3
+    0   2.455133   8  2  13.795999
+    1   2.473556  13  0  -2.606494
+    2 -10.151318  10  2  -3.112364
+
+And the metadata like this::
+
+    >>> individual.metadata
+    [Normal(mean=1.86, std=8.44), Poisson(lam=8.92), Poisson(lam=0.99), Normal(mean=-1.23, std=9.88)]
