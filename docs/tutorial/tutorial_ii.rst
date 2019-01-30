@@ -64,7 +64,9 @@ fitnesses in later timesteps, we will use a logarithmic scale::
     >>> import matplotlib.pyplot as plt
     >>> fig, ax = plt.subplots(1, figsize=(32, 12), dpi=300)
 
-    >>> ax.boxplot(all_fits, positions=range(len(all_fits)), sym='.', showmeans=True) #doctest:+SKIP
+    >>> ax.boxplot(
+    ...     all_fits, positions=range(len(all_fits)), sym='.', showmeans=True
+    ... ) #doctest:+SKIP
 
     >>> ax.set_title(f'Fitness scores in each epoch', size=24, pad=25) #doctest:+SKIP
     >>> ax.set_yscale('log') #doctest:+SKIP

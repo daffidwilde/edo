@@ -13,6 +13,7 @@ To demonstrate, let's create an individual::
     >>> from edo.pdfs import Normal, Poisson
 
     >>> np.random.seed(0)
+
     >>> individual = create_individual(
     ...     row_limits=[3, 3],
     ...     col_limits=[4, 4],

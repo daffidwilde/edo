@@ -11,7 +11,7 @@ You can check out `dists` for a list of all the currently implemented
 distributions and their default parameters. But for now, let's consider the
 family of normal distributions::
 
->>> from edo.pdfs import Normal
+    >>> from edo.pdfs import Normal
 
 The default bounds are -10 and 10 for the mean, and 0 and 10 for the standard
 deviation::

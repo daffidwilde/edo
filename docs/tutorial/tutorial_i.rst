@@ -100,14 +100,17 @@ with all of our observed fitness scores (the orange scatter points)::
     ...     j = i % 2
     ...     data = [[ind.dataframe.iloc[0, 0] for ind in all_pops[i]], all_fits[i]]
     ...
-    ...     axes[j].plot(xs, ys, lw=3, zorder=-1)
-    ...     axes[j].scatter(*data, s=200, color='orange')
+    ...     line = axes[j].plot(xs, ys, lw=3, zorder=-1)
+    ...     points = axes[j].scatter(*data, s=200, color='orange')
     ...
-    ...     axes[j].set_title(f'Fitness scores in epoch {i}', size=24, pad=25)
+    ...     title = axes[j].set_title(
+    ...         f'Fitness scores in epoch {i}', size=24, pad=25
+    ...     )
     ...     if i in [4, 5]:
-    ...         axes[j].set_xlabel(r'$x$', size=24)
+    ...         xlabel = axes[j].set_xlabel(r'$x$', size=24)
     ...     if i in [0, 2, 4]:
-    ...         axes[j].set_ylabel('Fitness', size=24)
+    ...         ylabel = axes[j].set_ylabel('Fitness', size=24)
+    ...
 
     >>> plt.tight_layout(pad=5)
     >>> plt.show() #doctest:+SKIP

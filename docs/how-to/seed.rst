@@ -12,7 +12,6 @@ Consider the setting from the :ref:`first tutorial <refs-tutorial-i>`. We will
 obtain inconsistent results by running the algorithm twice using two values of
 :code:`seed`.
 
-
 Run the algorithm with one seed::
 
    >>> def x_squared(df):
@@ -87,10 +86,10 @@ For further verification, we can look at the fitness progression::
    ...     for patch in plot['boxes']:
    ...         patch.set_facecolor(colour)
 
-   >>> for label in ax.get_xticklabels() + ax.get_yticklabels():
+   >>> for label in xticklabels + ax.get_yticklabels():
    ...     label.set_fontsize(20)
 
-   >>> ax.legend(
+   >>> legend = ax.legend(
    ...     handles=[Patch(color='lightblue'), Patch(color='lightpink')],
    ...     labels=['Seed 0', 'Seed 1'],
    ...     fontsize=24
