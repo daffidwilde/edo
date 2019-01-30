@@ -10,3 +10,8 @@ Please use the following to cite the latest version of the Edo library::
 
 To check the details (RELEASE TITLE, DOI INFORMATION and DOI NUMBER) please view
 the Zenodo page for the project.
+
+Click on the badge/link below:
+
+.. image:: https://zenodo.org/badge/139703799.svg
+   :target: https://zenodo.org/badge/latestdoi/139703799
