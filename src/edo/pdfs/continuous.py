@@ -14,29 +14,26 @@ class Gamma(Distribution):
         Name of the distribution, :code:`"Gamma"`.
     dtype : str
         Preferred datatype of distribution, :code:`"float"`.
-    alpha_limits : list
-        Limits on the shape parameter, :code:`alpha`. Defaults to
-        :code:`[0, 10]`.
-    theta_limits : list
-        Limits on the scale parameter, :code:`theta`. Defaults to
-        :code:`[0, 10]`.
+    param_limits : dict
+        A dictionary of limits on the distribution parameters. Defaults to
+        :code:`[0, 10]` for both :code:`alpha` and :code:`theta`.
     alpha : float
-        The shape parameter sampled from :code:`alpha_limits`. `Instance
-        attribute.`
+        The shape parameter sampled from :code:`param_limits["alpha"]`.
+        `Instance attribute.`
     theta : float
-        The scale parameter sampled from :code:`theta_limits`. `Instance
-        attribute.`
+        The scale parameter sampled from :code:`param_limits["theta"]`.
+        `Instance attribute.`
     """
 
     name = "Gamma"
     dtype = "float"
-    alpha_limits = [0, 10]
-    theta_limits = [0, 10]
+    hard_limits = {"alpha": [0, 10], "theta": [0, 10]}
+    param_limits = {"alpha": [0, 10], "theta": [0, 10]}
 
     def __init__(self):
 
-        self.alpha = np.random.uniform(*self.alpha_limits)
-        self.theta = np.random.uniform(*self.theta_limits)
+        self.alpha = np.random.uniform(*self.param_limits["alpha"])
+        self.theta = np.random.uniform(*self.param_limits["theta"])
 
     def sample(self, nrows):
         """ Take a sample of size :code:`nrows` from the gamma distribution with
@@ -55,27 +52,26 @@ class Normal(Distribution):
         Name of the distribution, :code:`"Normal"`.
     dtype : str
         Preferred datatype of distribution, :code:`"float"`.
-    mean_limits : list
-        Limits on the mean, :code:`mean`. Defaults to :code:`[-10, 10]`.
-    std_limits : list
-        Limits on the standard deviation, :code:`std`. Defaults to
-        :code:`[0, 10]`.
+    param_limits : dict
+        A dictionary of limits on the distribution parameters. Defaults to
+        :code:`[-10, 10]` for :code:`mean` and :code:`[0, 10]` for :code:`std`.
     mean : float
-        The mean, sampled from :code:`mean_limits`. `Instance attribute.`
-    std : float
-        The standard deviation, sampled from :code:`std_limits`. `Instance
+        The mean, sampled from :code:`param_limits["mean"]`. `Instance
         attribute.`
+    std : float
+        The standard deviation, sampled from :code:`param_limits["std"]`.
+        `Instance attribute.`
     """
 
     name = "Normal"
     dtype = "float"
-    mean_limits = [-10, 10]
-    std_limits = [0, 10]
+    hard_limits = {"mean": [-10, 10], "std": [0, 10]}
+    param_limits = {"mean": [-10, 10], "std": [0, 10]}
 
     def __init__(self):
 
-        self.mean = np.random.uniform(*self.mean_limits)
-        self.std = np.random.uniform(*self.std_limits)
+        self.mean = np.random.uniform(*self.param_limits["mean"])
+        self.std = np.random.uniform(*self.param_limits["std"])
 
     def sample(self, nrows):
         """ Take a sample of size :code:`nrows` from the normal distribution
