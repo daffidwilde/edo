@@ -1,3 +1,12 @@
+.. image:: https://img.shields.io/pypi/v/edo.svg
+   :target: https://pypi.org/project/edo/
+
+.. image:: https://coveralls.io/repos/github/daffidwilde/edo/badge.svg?branch=master
+   :target: https://coveralls.io/github/daffidwilde/edo?branch=master
+
+.. image:: https://zenodo.org/badge/139703799.svg
+   :target: https://zenodo.org/badge/latestdoi/139703799
+
 Evolutionary Dataset Optimisation
 *********************************
 
