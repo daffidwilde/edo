@@ -12,5 +12,6 @@ htmlcov/
 *.log
 *.out
 *.pdf
+*.png
 *pyc
 *.swp

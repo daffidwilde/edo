@@ -88,7 +88,8 @@ with all of our observed fitness scores (the orange scatter points)::
     >>> xs = range(-25, 26)
     >>> ys = [x ** 2 for x in xs]
 
-    >>> for i in range(6): # doctest:+ELLIPSIS
+    >>> for i in range(6): #doctest:+SKIP
+    ...
     ...     if i < 2:
     ...         axes = top
     ...     elif i < 4:
@@ -112,7 +113,7 @@ with all of our observed fitness scores (the orange scatter points)::
     ...
 
     >>> plt.tight_layout(pad=5)
-    >>> plt.show()
+    >>> plt.show() #doctest:+SKIP
 
 The above code should give a figure like this:
 
@@ -121,4 +122,5 @@ The above code should give a figure like this:
    :align: center
    :alt: Fitness scores of every individual
 
-So the GA has successfully started converging towards zero. Good news!
+The GA has successfully started converging towards a population of zeros. Good
+news!

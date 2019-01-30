@@ -23,7 +23,6 @@ Changing these bounds is as simple as redefining the class attributes::
 
     >>> Normal.mean_limits = [-5, 5]
     >>> Normal.std_limits = [0, 1]
-
     >>> Normal.mean_limits, Normal.std_limits
     ([-5, 5], [0, 1])
 

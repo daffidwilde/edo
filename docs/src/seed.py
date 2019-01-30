@@ -50,7 +50,7 @@ def main():
 
     width, epsilon = 0.3, 0.01
     positions = np.arange(len(all_fits))
-    shift = .5 * width + epsilon
+    shift = 0.5 * width + epsilon
 
     old = ax.boxplot(
         all_fits, positions=positions - shift, widths=width, patch_artist=True

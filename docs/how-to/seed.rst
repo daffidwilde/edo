@@ -14,12 +14,11 @@ obtain inconsistent results by running the algorithm twice using two values of
 
 Run the algorithm with one seed::
 
-   >>> import edo
-   >>> from edo.pdfs import Normal
-
    >>> def x_squared(df):
    ...     return df.iloc[0, 0] ** 2
 
+   >>> import edo
+   >>> from edo.pdfs import Normal
    >>> pop, fit, all_pops, all_fits = edo.run_algorithm(
    ...     x_squared,
    ...     size=100,
@@ -42,7 +41,13 @@ And again, with another seed::
    ...     seed=1
    ... )
 
-.. include:: seed_inds.rst
+Now, by looking at the first individual in the final population for each run, we
+see they are different::
+
+   >>> pop[0], new_pop[0]
+   (Individual(dataframe=           0
+   0 -0.045993, metadata=[Normal(mean=0.17, std=0.13)]), Individual(dataframe=          0
+   0  0.074162, metadata=[Normal(mean=0.25, std=0.92)]))
 
 For further verification, we can look at the fitness progression::
 
@@ -71,12 +76,11 @@ For further verification, we can look at the fitness progression::
    ...     patch_artist=True
    ... )
 
-   >>> xticks = ax.set_xticks(positions)
-   >>> xticklabels = ax.set_xticklabels(positions)
-   >>> ax.set_yscale('log')
-   >>> xlabel = ax.set_xlabel('Epoch', fontsize=24)
-   >>> ylabel = ax.set_ylabel(r'$\log (f(x))$', fontsize=24)
-   ...
+   >>> ax.set_xticks(positions) #doctest:+SKIP
+   >>> ax.set_xticklabels(positions) #doctest:+SKIP
+   >>> ax.set_yscale('log') #doctest:+SKIP
+   >>> ax.set_xlabel('Epoch', fontsize=24) #doctest:+SKIP
+   >>> ax.set_ylabel(r'$\log (f(x))$', fontsize=24) #doctest:+SKIP
 
    >>> for plot, colour in zip([old, new], ['lightblue', 'lightpink']):
    ...     for patch in plot['boxes']:
@@ -89,9 +93,9 @@ For further verification, we can look at the fitness progression::
    ...     handles=[Patch(color='lightblue'), Patch(color='lightpink')],
    ...     labels=['Seed 0', 'Seed 1'],
    ...     fontsize=24
-   ... )
+   ... ) #doctest:+SKIP
 
-   >>> plt.show()
+   >>> plt.show() #doctest:+SKIP
 
 .. image:: ../_static/seed.svg
    :width: 100 %
