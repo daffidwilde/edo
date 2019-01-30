@@ -11,13 +11,12 @@ Below are brief descriptions of the parameters that can be passed to the GA.
 .. automodule:: edo
    :members: run_algorithm
 
-
 .. _params-selection:
 
 Selection
 ---------
 
-.. automodule:: edo.operators
+.. automodule:: edo.operators.selection
    :members: selection
 
 .. _params-crossover:
@@ -25,7 +24,7 @@ Selection
 Crossover
 ---------
 
-.. automodule:: edo.operators
+.. automodule:: edo.operators.crossover
    :members: crossover
 
 .. _params-mutation:
@@ -33,5 +32,5 @@ Crossover
 Mutation
 --------
 
-.. automodule:: edo.operators
+.. automodule:: edo.operators.mutation
    :members: mutation

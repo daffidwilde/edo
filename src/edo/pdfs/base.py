@@ -11,6 +11,9 @@ class Distribution:
     ----------
     name : str
         The name of the distribution, "Distribution".
+    hard_limits : None
+        A placeholder for a dictionary with hard bounds the parameters. Also
+        acts as the default limits when resetting an individual.
     param_limits : None
         A placeholder for a distribution parameter limit dictionary.
     """
@@ -30,8 +33,8 @@ class Distribution:
 
     @classmethod
     def reset(cls):
-        """ Reset the class to have its original parameter limits, given in the
-        hidden class attribute :code:`_param_limits`. """
+        """ Reset the class to have its widest parameter limits, given in the
+        class attribute :code:`hard_limits`. """
 
         cls.param_limits = deepcopy(cls.hard_limits)
 

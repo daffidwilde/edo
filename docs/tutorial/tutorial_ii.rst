@@ -1,3 +1,5 @@
+.. _tutorial-ii:
+
 Approximating the mean
 ======================
 
