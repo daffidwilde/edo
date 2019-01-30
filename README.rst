@@ -1,8 +1,14 @@
 .. image:: https://img.shields.io/pypi/v/edo.svg
    :target: https://pypi.org/project/edo/
 
+.. image:: https://travis-ci.com/daffidwilde/edo.svg?branch=master
+    :target: https://travis-ci.com/daffidwilde/edo
+
 .. image:: https://coveralls.io/repos/github/daffidwilde/edo/badge.svg?branch=master
    :target: https://coveralls.io/github/daffidwilde/edo?branch=master
+
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/ambv/black
 
 .. image:: https://zenodo.org/badge/139703799.svg
    :target: https://zenodo.org/badge/latestdoi/139703799
