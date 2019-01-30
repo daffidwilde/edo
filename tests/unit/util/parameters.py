@@ -1,8 +1,8 @@
 """ Parameters for hypothesis testing, etc. """
 
 import itertools as itr
-import numpy as np
 
+import numpy as np
 from hypothesis import given
 from hypothesis.strategies import (
     booleans,
@@ -42,6 +42,8 @@ TUPLES = tuples(TUPS, TUPS).filter(
 )
 
 UNIT = np.linspace(0.01, 1, 100)
+
+PROPS = tuples(PROB, PROB).filter(lambda x: x[0] > 0.5 or x[1] > 0.5)
 
 WEIGHTS = sampled_from(
     [dist for dist in itr.product(UNIT, repeat=3) if sum(dist) == 1.0]
@@ -102,12 +104,23 @@ TUPLE_MUTATION = given(
     row_limits=SHAPES, col_limits=TUPLES, weights=WEIGHTS, prob=PROB
 )
 
+COMPACT_SPACE = given(
+    size=SIZE,
+    row_limits=SHAPES,
+    col_limits=SHAPES,
+    weights=WEIGHTS,
+    props=PROPS,
+    maximise=booleans(),
+    compact_ratio=PROB,
+    itr=INTS,
+)
+
 OFFSPRING = given(
     size=SIZE,
     row_limits=SHAPES,
     col_limits=SHAPES,
     weights=WEIGHTS,
-    props=tuples(PROB, PROB).filter(lambda x: x[0] > 0.5 or x[1] > 0.5),
+    props=PROPS,
     crossover_prob=PROB,
     mutation_prob=PROB,
     maximise=booleans(),
@@ -118,7 +131,7 @@ SELECTION = given(
     row_limits=SHAPES,
     col_limits=SHAPES,
     weights=WEIGHTS,
-    props=tuples(PROB, PROB).filter(lambda x: x[0] > 0.5 or x[1] > 0.5),
+    props=PROPS,
     maximise=booleans(),
 )
 
