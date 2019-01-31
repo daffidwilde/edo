@@ -1,6 +1,13 @@
 History
 =======
 
+v0.0.4a0 (2019-01-31)
+---------------------
+
+- Remove unwanted print statements
+- Update images in docs
+- Add context line to setup.py
+
 v0.0.4 (2019-01-30)
 -------------------
 
