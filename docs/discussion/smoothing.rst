@@ -13,7 +13,7 @@ function; in the tutorial several repetitions (samples) are taken and
 amalgamated to give a representative value for the objective function. Depending
 on the problem domain you are investigating, more robust or specific methods may
 be available to you such as `Recursive Bayesian estimation
-<https://en.wikipedia.org/wiki/Recursive_Bayesian_estimation>`.
+<https://en.wikipedia.org/wiki/Recursive_Bayesian_estimation>`_.
 
 Without smoothing, if your function is stochastic, then you will not obtain a
 fair or truthful value for the fitness of an individual dataset.
