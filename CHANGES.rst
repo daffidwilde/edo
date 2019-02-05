@@ -1,6 +1,12 @@
 History
 =======
 
+v0.1 (2019-02-05)
+-----------------
+
+- Resetting of columns is now based on the original parameter limits
+- Minor fixes in documentation and larger code base
+
 v0.0.4a0 (2019-01-31)
 ---------------------
 
