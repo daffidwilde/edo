@@ -1,7 +1,7 @@
 """ Test the algorithm as a whole. """
 
 import pandas as pd
-from hypothesis import given
+from hypothesis import given, settings
 from hypothesis.strategies import booleans
 
 import edo
@@ -15,6 +15,7 @@ HALF_PROB = PROB.filter(lambda x: x > 0.5)
 OPEN_UNIT = PROB.filter(lambda x: x not in [0, 1])
 
 
+@settings(deadline=None)
 @given(
     size=SIZE,
     row_limits=SHAPES,
@@ -47,9 +48,6 @@ def test_run_algorithm(
     of them/their fitnesses correctly. """
 
     pdfs = [Gamma, Normal, Poisson]
-
-    for pdf in pdfs:  # make sure the classes are as normal
-        pdf.reset()
 
     pop, fit, all_pops, all_fits = edo.run_algorithm(
         fitness=trivial_fitness,
