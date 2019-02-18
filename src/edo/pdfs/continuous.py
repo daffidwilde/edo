@@ -83,3 +83,42 @@ class Normal(Distribution):
         respectively. """
 
         return np.random.normal(loc=self.mean, scale=self.std, size=nrows)
+
+
+class Uniform(Distribution):
+    """ Continuous column class given by the uniform distribution.
+
+    Attributes
+    ----------
+    name : str
+        Name of the distribution, :code:`Uniform`
+    dtype : str
+        Preferred datatype of distribution, :code:`float`.
+    param_limits : dict
+        A dictionary of limits on the distribution parameters. Defaults to
+        :code:`[-10, 10]` for :code:`bounds`.
+    lower : float
+        The lower bound of the distribution.
+    upper : float
+        The upper bound of the distribution.
+    """
+
+    name = "Uniform"
+    dtype = "float"
+    hard_limits = {"bounds": [-10, 10]}
+    param_limits = {'bounds': [-10, 10]}
+
+    def __init__(self):
+
+        lower = np.random.uniform(*self.param_limits["bounds"])
+        upper = np.random.uniform(lower, max(self.param_limits["bounds"]))
+        self.bounds = [lower, upper]
+
+        super().__init__()
+
+    def sample(self, nrows):
+        """ Take a sample of size :code:`nrows` from the uniform distribution
+        with lower and upper limits given by :code:`lower` and :code:`upper`
+        respectively. """
+
+        return np.random.uniform(*self.bounds, size=nrows)

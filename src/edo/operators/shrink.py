@@ -8,7 +8,11 @@ def _get_param_values(parents, pdf, name):
     for _, metadata in parents:
         for column in metadata:
             if isinstance(column, pdf):
-                values.append(vars(column)[name])
+                try:
+                    for val in vars(column)[name]:
+                        values.append(val)
+                except TypeError:
+                    values.append(vars(column)[name])
 
     return values
 
@@ -36,7 +40,7 @@ def _adjust_pdf_params(parents, pdf, itr, shrinkage):
             lower = max(min(hard_limits), min(limits), midpoint - shift)
             upper = min(min(hard_limits), min(limits), midpoint + shift)
 
-            pdf.param_limits[name] = [lower, upper]
+            pdf.param_limits[name] = sorted([lower, upper])
 
     return pdf
 
