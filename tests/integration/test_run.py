@@ -6,7 +6,7 @@ from hypothesis.strategies import booleans
 
 import edo
 from edo.individual import Individual
-from edo.pdfs import Gamma, Normal, Poisson
+from edo.pdfs import Normal, Poisson, Uniform
 
 from .util.parameters import PROB, SHAPES, SIZE, WEIGHTS
 from .util.trivials import trivial_dwindle, trivial_fitness, trivial_stop
@@ -26,7 +26,7 @@ OPEN_UNIT = PROB.filter(lambda x: x not in [0, 1])
     lucky_prop=HALF_PROB,
     crossover_prob=PROB,
     mutation_prob=PROB,
-    compact=OPEN_UNIT,
+    shrinkage=OPEN_UNIT,
     maximise=booleans(),
     seed=SIZE,
 )
@@ -40,14 +40,14 @@ def test_run_algorithm(
     lucky_prop,
     crossover_prob,
     mutation_prob,
-    compact,
+    shrinkage,
     maximise,
     seed,
 ):
     """ Verify that the algorithm produces a valid population, and keeps track
     of them/their fitnesses correctly. """
 
-    pdfs = [Gamma, Normal, Poisson]
+    pdfs = [Normal, Poisson, Uniform]
 
     pop, fit, all_pops, all_fits = edo.run_algorithm(
         fitness=trivial_fitness,
@@ -63,7 +63,7 @@ def test_run_algorithm(
         lucky_prop=lucky_prop,
         crossover_prob=crossover_prob,
         mutation_prob=mutation_prob,
-        compact=compact,
+        shrinkage=shrinkage,
         maximise=maximise,
         seed=seed,
         fitness_kwargs={"arg": None},
