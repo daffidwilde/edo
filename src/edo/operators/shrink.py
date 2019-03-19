@@ -18,7 +18,7 @@ def _get_param_values(parents, pdf, name):
 
 
 def _adjust_pdf_params(parents, pdf, itr, shrinkage):
-    """ Adjust the search space of a distribution's parameters according to a
+    r""" Adjust the search space of a distribution's parameters according to a
     power law on its limits:
 
     .. math::
@@ -33,28 +33,27 @@ def _adjust_pdf_params(parents, pdf, itr, shrinkage):
     for name, limits in pdf.param_limits.items():
         values = _get_param_values(parents, pdf, name)
         if values:
-            hard_limits = pdf.hard_limits[name]
             midpoint = sum(values) / len(values)
             shift = (max(limits) - min(limits)) * (shrinkage ** itr) / 2
 
-            lower = max(min(hard_limits), min(limits), midpoint - shift)
-            upper = min(min(hard_limits), min(limits), midpoint + shift)
+            lower = max(min(limits), midpoint - shift)
+            upper = min(min(limits), midpoint + shift)
 
             pdf.param_limits[name] = sorted([lower, upper])
 
     return pdf
 
 
-def shrink(parents, pdfs, itr, shrinkage):
+def shrink(parents, families, itr, shrinkage):
     """ Given the current progress of the evolutionary algorithm, shrink its
     search space, i.e. the parameter spaces for each of the distribution classes
-    in :code:`pdfs`.
+    in :code:`families`.
 
     Parameters
     ----------
     parents : list of `Individual` instances
         The parent individuals for this iteration.
-    pdfs : list of `Distribution` instances
+    families : list of `Distribution` instances
         The families of distributions to be shrunk.
     itr : int
         The current iteration.
@@ -63,11 +62,12 @@ def shrink(parents, pdfs, itr, shrinkage):
 
     Returns
     -------
-    pdfs : list of `Distribution` instances
+    families : list of `Distribution` instances
         The altered families.
     """
 
-    for pdf in pdfs:
-        pdf = _adjust_pdf_params(parents, pdf, itr, shrinkage)
+    for family in families:
+        for pdf in family.subtypes:
+            pdf = _adjust_pdf_params(parents, pdf, itr, shrinkage)
 
-    return pdfs
+    return families

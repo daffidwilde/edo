@@ -1,6 +1,8 @@
 """ .. Base inheritance class for all distributions. """
 
-from copy import deepcopy
+import copy
+
+import numpy as np
 
 
 class Distribution:
@@ -11,8 +13,6 @@ class Distribution:
     ----------
     name : str
         The name of the distribution, :code:`"Distribution"`.
-    hard_limits : None
-        A placeholder for a dictionary with hard bounds the parameters.
     param_limits : None
         A placeholder for a distribution parameter limit dictionary. These are
         considered the original limits and the class can be reset to them using
@@ -20,12 +20,8 @@ class Distribution:
     """
 
     name = "Distribution"
-    hard_limits = None
+    subtypes = []
     param_limits = None
-
-    def __init__(self):
-
-        self._store_limits()
 
     def __repr__(self):
 
@@ -44,11 +40,32 @@ class Distribution:
         return f"{self.name}({params})"
 
     @classmethod
-    def _store_limits(cls):
-        """ Store the original parameter limits in a hidden attribute. """
+    def build_subtype(cls):
+        """ Build a copy of the distribution class with identical properties
+        that is independent of the original. """
 
-        if "_param_limits" not in vars(cls):
-            cls._param_limits = deepcopy(cls.param_limits)
+        class Subtype:
+
+            family = cls
+
+        setattr(Subtype, "__repr__", cls.__repr__)
+        for key, value in vars(cls).items():
+            if key != "subtypes":
+                setattr(Subtype, key, copy.deepcopy(value))
+
+        cls.subtypes.append(Subtype)
+        return Subtype
+
+    @classmethod
+    def make_instance(cls):
+        """ Choose an existing subtype or build a new one. Return an instance of
+        that subtype. """
+
+        subtype = np.random.choice(cls.subtypes + [cls.build_subtype])
+        if subtype == cls.build_subtype:
+            subtype = cls.build_subtype()
+
+        return subtype()
 
     @classmethod
     def reset(cls):
@@ -56,9 +73,9 @@ class Distribution:
         given in the class attribute :code:`param_limits` when the first
         instance is made. """
 
-        cls.param_limits = cls._param_limits
+        cls.subtypes = []
 
-    def sample(self):
+    def sample(self, nrows=None):
         """ Raise a :code:`NotImplementedError` by default. """
 
         raise NotImplementedError("You must define a sample method.")
@@ -69,7 +86,7 @@ class Distribution:
         else. """
 
         out = [self.name]
-        for key, val in self.__dict__.items():
+        for key, val in vars(self).items():
             out.append(key)
             out.append(val)
 
