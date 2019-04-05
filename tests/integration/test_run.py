@@ -15,7 +15,7 @@ HALF_PROB = PROB.filter(lambda x: x > 0.5)
 OPEN_UNIT = PROB.filter(lambda x: x not in [0, 1])
 
 
-@settings(deadline=None)
+@settings(deadline=None, max_examples=30)
 @given(
     size=SIZE,
     row_limits=SHAPES,
@@ -87,9 +87,9 @@ def test_run_algorithm(
             assert len(metadata) == len(dataframe.columns)
 
             for pdf in metadata:
-                assert sum(
-                    [pdf.name == family.name for family in families]
-                ) == 1
+                assert (
+                    sum([pdf.name == family.name for family in families]) == 1
+                )
 
             for i, limits in enumerate([row_limits, col_limits]):
                 assert limits[0] <= dataframe.shape[i] <= limits[1]
