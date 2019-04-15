@@ -1,6 +1,14 @@
 History
 =======
 
+v0.2 (2019-04-15)
+-----------------
+
+- Column distributions can now produce independent versions of themselves (#112)
+- Fitness computation is parallelised and cached (#117)
+- Results written to disk. Output metadata as dictionaries.
+
+
 v0.1 (2019-02-05)
 -----------------
 
