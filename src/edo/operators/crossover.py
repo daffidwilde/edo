@@ -97,7 +97,6 @@ def crossover(parent1, parent2, col_limits, families, prob=0.5):
     :code:`Individual`. Dimensions are inherited first, and then column-metadata
     pairs are inherited from either parent uniformly. Missing values are filled
     in as necessary.
-
     Parameters
     ----------
     parent1 : Individual
@@ -113,7 +112,6 @@ def crossover(parent1, parent2, col_limits, families, prob=0.5):
     prob : float, optional
         The cut-off probability with which to inherit dimensions from
         :code:`parent1` over :code:`parent2`.
-
     Returns
     -------
     offspring : Individual

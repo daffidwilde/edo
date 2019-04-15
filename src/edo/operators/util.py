@@ -1,4 +1,4 @@
-""" A collection of useful functions for various processes within the GA. """
+""" A collection of functions for use across several operators. """
 
 
 def get_family_counts(metadata, families):
