@@ -1,6 +1,8 @@
 """ .. Base inheritance class for all distributions. """
 
-from copy import deepcopy
+import copy
+
+import numpy as np
 
 
 class Distribution:
@@ -11,21 +13,26 @@ class Distribution:
     ----------
     name : str
         The name of the distribution, :code:`"Distribution"`.
-    hard_limits : None
-        A placeholder for a dictionary with hard bounds the parameters.
+    subtype_id : int
+        A placeholder for a subtype's identifier. Defaults to 0 and increments
+        with each new subtype. Reset with :code:`reset` class method.
+    subtypes : list
+        A list of all currently available subtypes. Can be reset with
+        :code:`reset` class method.
+    max_subtypes : int
+        The maximum number of subtypes the distribution may have at any given
+        time. If :code:`None`, then no limit is set.
     param_limits : None
         A placeholder for a distribution parameter limit dictionary. These are
-        considered the original limits and the class can be reset to them using
-        the :code:`reset` class method.
+        considered the original limits to be used by all subtypes of the
+        distribution.
     """
 
     name = "Distribution"
-    hard_limits = None
+    subtype_id = 0
+    subtypes = []
+    max_subtypes = None
     param_limits = None
-
-    def __init__(self):
-
-        self._store_limits()
 
     def __repr__(self):
 
@@ -44,33 +51,59 @@ class Distribution:
         return f"{self.name}({params})"
 
     @classmethod
-    def _store_limits(cls):
-        """ Store the original parameter limits in a hidden attribute. """
+    def build_subtype(cls):
+        """ Build a copy of the distribution class with identical properties
+        that is independent of the original. """
 
-        if "_param_limits" not in vars(cls):
-            cls._param_limits = deepcopy(cls.param_limits)
+        class Subtype:
+
+            family = cls
+            subtype_id = cls.subtype_id
+
+        setattr(Subtype, "__repr__", cls.__repr__)
+        setattr(Subtype, "sample", cls.sample)
+        setattr(Subtype, "to_dict", cls.to_dict)
+        for key, value in vars(cls).items():
+            if "subtype" not in key:
+                setattr(Subtype, key, copy.deepcopy(value))
+
+        cls.subtype_id += 1
+        cls.subtypes.append(Subtype)
+        return Subtype
+
+    @classmethod
+    def make_instance(cls):
+        """ Choose an existing subtype or build a new one if there is space
+        available in their subtype list. Return an instance of that subtype. """
+
+        choices = list(cls.subtypes)
+        if cls.max_subtypes is None or len(choices) < cls.max_subtypes:
+            choices.append(cls.build_subtype)
+
+        subtype = np.random.choice(choices)
+        if subtype == cls.build_subtype:
+            subtype = cls.build_subtype()
+
+        return subtype()
 
     @classmethod
     def reset(cls):
-        """ Reset the class to have its original parameter limits, i.e. those
-        given in the class attribute :code:`param_limits` when the first
-        instance is made. """
+        """ Reset the class to have no subtypes. """
 
-        cls.param_limits = cls._param_limits
+        cls.subtype_id = 0
+        cls.subtypes = []
 
-    def sample(self):
+    def sample(self, nrows=None):
         """ Raise a :code:`NotImplementedError` by default. """
 
         raise NotImplementedError("You must define a sample method.")
 
-    def to_tuple(self):
-        """ Returns the name of distribution, and the names and values of all
-        parameters as a tuple. This is used for the saving of data and little
-        else. """
+    def to_dict(self):
+        """ Returns a dictionary containing the name of distribution, and the
+        values of all its parameters. """
 
-        out = [self.name]
-        for key, val in self.__dict__.items():
-            out.append(key)
-            out.append(val)
+        out = dict(vars(self))
+        out["name"] = self.name
+        out["subtype_id"] = self.subtype_id
 
-        return tuple(out)
+        return out

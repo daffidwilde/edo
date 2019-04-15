@@ -6,14 +6,11 @@ import pytest
 from hypothesis import given, settings
 from hypothesis.strategies import integers
 
-from edo.fitness import get_fitness
 from edo.individual import Individual
-from edo.operators import selection
 from edo.pdfs import Gamma, Normal, Poisson
 from edo.population import create_initial_population, create_new_population
 
 from .util.parameters import OFFSPRING, POPULATION
-from .util.trivials import trivial_fitness
 
 
 @POPULATION
@@ -21,9 +18,12 @@ def test_create_initial_population(size, row_limits, col_limits, weights):
     """ Create an initial population of individuals and verify it is a list
     of the correct length with valid individuals. """
 
-    pdfs = [Gamma, Normal, Poisson]
+    families = [Gamma, Normal, Poisson]
+    for family in families:
+        family.reset()
+
     population = create_initial_population(
-        size, row_limits, col_limits, pdfs, weights
+        size, row_limits, col_limits, families, weights
     )
 
     assert isinstance(population, list)
@@ -38,13 +38,10 @@ def test_create_initial_population(size, row_limits, col_limits, weights):
         assert len(metadata) == len(dataframe.columns)
 
         for pdf in metadata:
-            assert isinstance(pdf, tuple(pdfs))
+            assert sum([pdf.name == family.name for family in families]) == 1
 
         for i, limits in enumerate([row_limits, col_limits]):
-            assert (
-                dataframe.shape[i] >= limits[0]
-                and dataframe.shape[i] <= limits[1]
-            )
+            assert limits[0] <= dataframe.shape[i] <= limits[1]
 
 
 @given(size=integers(max_value=1))
@@ -71,14 +68,12 @@ def test_create_new_population(
     of offspring. Verify that each offspring is a valid individual and there are
     the correct number of them. """
 
-    best_prop, lucky_prop = props
-    pdfs = [Gamma, Normal, Poisson]
-    population = create_initial_population(
-        size, row_limits, col_limits, pdfs, weights
-    )
-    pop_fitness = get_fitness(trivial_fitness, population)
-    parents = selection(
-        population, pop_fitness, best_prop, lucky_prop, maximise
+    families = [Gamma, Normal, Poisson]
+    for family in families:
+        family.reset()
+
+    parents = create_initial_population(
+        max(int(size / 2), 2), row_limits, col_limits, families, weights
     )
 
     population = create_new_population(
@@ -88,7 +83,7 @@ def test_create_new_population(
         mutation_prob,
         row_limits,
         col_limits,
-        pdfs,
+        families,
         weights,
     )
 
@@ -113,11 +108,9 @@ def test_create_new_population(
         assert isinstance(dataframe, pd.DataFrame)
         assert len(metadata) == len(dataframe.columns)
 
-        for pdf in metadata:
-            assert isinstance(pdf, tuple(pdfs))
+        for dtype, pdf in zip(dataframe.dtypes, metadata):
+            assert sum([pdf.name == family.name for family in families])
+            assert dtype == pdf.dtype
 
         for i, limits in enumerate([row_limits, col_limits]):
-            assert (
-                dataframe.shape[i] >= limits[0]
-                and dataframe.shape[i] <= limits[1]
-            )
+            assert limits[0] <= dataframe.shape[i] <= limits[1]

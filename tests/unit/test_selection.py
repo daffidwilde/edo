@@ -3,7 +3,7 @@
 import pandas as pd
 import pytest
 
-from edo.fitness import get_fitness
+from edo.fitness import get_population_fitness
 from edo.individual import Individual
 from edo.operators import selection
 from edo.pdfs import Gamma, Normal, Poisson
@@ -19,12 +19,12 @@ def test_parents(size, row_limits, col_limits, weights, props, maximise):
     based on that fitness. Verify that parents are all valid individuals. """
 
     best_prop, lucky_prop = props
-    pdfs = [Gamma, Normal, Poisson]
+    families = [Gamma, Normal, Poisson]
     population = create_initial_population(
-        size, row_limits, col_limits, pdfs, weights
+        size, row_limits, col_limits, families, weights
     )
 
-    pop_fitness = get_fitness(trivial_fitness, population)
+    pop_fitness = get_population_fitness(population, trivial_fitness)
     parents = selection(
         population, pop_fitness, best_prop, lucky_prop, maximise
     )
@@ -42,13 +42,10 @@ def test_parents(size, row_limits, col_limits, weights, props, maximise):
         assert len(metadata) == len(dataframe.columns)
 
         for pdf in metadata:
-            assert isinstance(pdf, tuple(pdfs))
+            assert sum([pdf.name == family.name for family in families]) == 1
 
         for i, limits in enumerate([row_limits, col_limits]):
-            assert (
-                dataframe.shape[i] >= limits[0]
-                and dataframe.shape[i] <= limits[1]
-            )
+            assert limits[0] <= dataframe.shape[i] <= limits[1]
 
 
 @SMALL_PROPS
@@ -59,11 +56,10 @@ def test_smallprops_error(
 
     with pytest.raises(ValueError):
         best_prop, lucky_prop = props
-        pdfs = [Gamma, Normal, Poisson]
+        families = [Gamma, Normal, Poisson]
         population = create_initial_population(
-            size, row_limits, col_limits, pdfs, weights
+            size, row_limits, col_limits, families, weights
         )
 
-        pop_fitness = get_fitness(trivial_fitness, population)
-
+        pop_fitness = get_population_fitness(population, trivial_fitness)
         selection(population, pop_fitness, best_prop, lucky_prop, maximise)

@@ -12,14 +12,14 @@ from hypothesis.strategies import (
     tuples,
 )
 
-SIZE = integers(min_value=2, max_value=10)
+SIZE = integers(min_value=2, max_value=5)
 INTS = integers(min_value=1, max_value=5)
 PROB = floats(min_value=0, max_value=1)
 SMALL_PROB = floats(min_value=0, max_value=1e-3)
 TUPS = tuples(
-    integers(min_value=0, max_value=3),
-    integers(min_value=0, max_value=3),
-    integers(min_value=0, max_value=3),
+    integers(min_value=0, max_value=2),
+    integers(min_value=0, max_value=2),
+    integers(min_value=0, max_value=2),
 )
 
 SHAPES = tuples(INTS, INTS).map(sorted).filter(lambda x: x[0] <= x[1])
@@ -68,6 +68,14 @@ POPULATION = given(
     size=SIZE, row_limits=SHAPES, col_limits=SHAPES, weights=WEIGHTS
 )
 
+POP_FITNESS = given(
+    size=SIZE,
+    row_limits=SHAPES,
+    col_limits=SHAPES,
+    weights=WEIGHTS,
+    processes=INTS,
+)
+
 INTEGER_CROSSOVER = given(
     row_limits=SHAPES, col_limits=SHAPES, weights=WEIGHTS, prob=PROB
 )
@@ -82,10 +90,6 @@ TUPLE_INTEGER_CROSSOVER = given(
 
 TUPLE_CROSSOVER = given(
     row_limits=SHAPES, col_limits=TUPLES, weights=WEIGHTS, prob=PROB
-)
-
-FITNESS = given(
-    size=SIZE, row_limits=SHAPES, col_limits=SHAPES, weights=WEIGHTS
 )
 
 INTEGER_MUTATION = given(
