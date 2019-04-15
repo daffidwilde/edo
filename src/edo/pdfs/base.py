@@ -13,13 +13,23 @@ class Distribution:
     ----------
     name : str
         The name of the distribution, :code:`"Distribution"`.
+    subtype_id : int
+        A placeholder for a subtype's identifier. Defaults to 0 and increments
+        with each new subtype. Reset with :code:`reset` class method.
+    subtypes : list
+        A list of all currently available subtypes. Can be reset with
+        :code:`reset` class method.
+    max_subtypes : int
+        The maximum number of subtypes the distribution may have at any given
+        time. If :code:`None`, then no limit is set.
     param_limits : None
         A placeholder for a distribution parameter limit dictionary. These are
-        considered the original limits and the class can be reset to them using
-        the :code:`reset` class method.
+        considered the original limits to be used by all subtypes of the
+        distribution.
     """
 
     name = "Distribution"
+    subtype_id = 0
     subtypes = []
     max_subtypes = None
     param_limits = None
@@ -48,12 +58,16 @@ class Distribution:
         class Subtype:
 
             family = cls
+            subtype_id = cls.subtype_id
 
         setattr(Subtype, "__repr__", cls.__repr__)
+        setattr(Subtype, "sample", cls.sample)
+        setattr(Subtype, "to_dict", cls.to_dict)
         for key, value in vars(cls).items():
-            if key != "subtypes":
+            if "subtype" not in key:
                 setattr(Subtype, key, copy.deepcopy(value))
 
+        cls.subtype_id += 1
         cls.subtypes.append(Subtype)
         return Subtype
 
@@ -76,6 +90,7 @@ class Distribution:
     def reset(cls):
         """ Reset the class to have no subtypes. """
 
+        cls.subtype_id = 0
         cls.subtypes = []
 
     def sample(self, nrows=None):
@@ -83,14 +98,12 @@ class Distribution:
 
         raise NotImplementedError("You must define a sample method.")
 
-    def to_tuple(self):
-        """ Returns the name of distribution, and the names and values of all
-        parameters as a tuple. This is used for the saving of data and little
-        else. """
+    def to_dict(self):
+        """ Returns a dictionary containing the name of distribution, and the
+        values of all its parameters. """
 
-        out = [self.name]
-        for key, val in vars(self).items():
-            out.append(key)
-            out.append(val)
+        out = dict(vars(self))
+        out["name"] = self.name
+        out["subtype_id"] = self.subtype_id
 
-        return tuple(out)
+        return out

@@ -12,7 +12,9 @@ def test_distribution_init():
 
     dist = Distribution()
     assert dist.name == "Distribution"
+    assert dist.subtype_id == 0
     assert dist.subtypes == []
+    assert dist.max_subtypes is None
     assert dist.param_limits is None
 
     with pytest.raises(NotImplementedError):
@@ -51,11 +53,14 @@ def test_build_subtype(family):
     family.reset()
     subtype = family.build_subtype()
     for key, value in vars(subtype).items():
-        if key in vars(family) and key != "subtypes":
+        if key in vars(family) and "subtype" not in key:
             assert getattr(family, key) == value
 
     assert subtype.__repr__ is family.__repr__
     assert subtype.sample is family.sample
+    assert subtype.to_dict is family.to_dict
+    assert subtype.subtype_id == 0
+    assert family.subtype_id == 1
 
     sub = subtype()
     assert sub.family == family
@@ -104,8 +109,10 @@ def test_max_subtypes(family):
 def test_reset(family):
     """ Test that distribution classes can be reset. """
 
+    family.subtype_id = 1
     family.subtypes = ["foo"]
     family.reset()
+    assert family.subtype_id == 0
     assert family.subtypes == []
 
 
@@ -120,19 +127,17 @@ def test_sample(family, nrows):
 
 
 @given(family=sampled_from(all_pdfs))
-def test_to_tuple(family):
-    """ Verify that objects can pass their information to a tuple of the correct
-    length and form. """
+def test_to_dict(family):
+    """ Verify that objects can pass their information to a dictionary of the
+    correct form. """
 
     pdf = family()
-    out = pdf.to_tuple()
-    assert len(out) - 1 == 2 * len(vars(pdf))
-    assert out[0] == pdf.name
-    for i, item in enumerate(out[1:]):
-        if i % 2 == 0:
-            assert isinstance(item, str)
-        else:
-            assert item == list(vars(pdf).values())[int((i - 1) / 2)]
+    pdf_dict = pdf.to_dict()
+    assert pdf_dict["name"] == pdf.name
+    assert pdf_dict["subtype_id"] == pdf.subtype_id
+
+    for param in pdf.param_limits:
+        assert pdf_dict[param] == vars(pdf)[param]
 
 
 @given(family=sampled_from(all_pdfs))
