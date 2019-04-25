@@ -1,6 +1,13 @@
 History
 =======
 
+v0.2.1 (2019-04-25)
+-------------------
+
+- Ignore Dask aux files if they come up
+- Fix warning from PyYAML
+
+
 v0.2 (2019-04-15)
 -----------------
 
