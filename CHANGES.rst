@@ -1,6 +1,26 @@
 History
 =======
 
+v0.3 (2020-07-27)
+-----------------
+
+This is the first big improvement in a while and makes the library easier to use
+in my opinion. The changes can be summarised as follows:
+
+- A new class `Family` for handling the subtypes of a `Distribution` class
+  externally. Note the move from `edo.families` to `edo.distributions` to
+  reflect this and to avoid confusion in the future.
+- The `Individual` class is more robust now, taking its fitness as an attribute
+  and being able to store and recover itself entirely -- including the subtype
+  instances in `Individual.metadata` (a **big** improvement over the
+  dictionaries).
+- The pseudo-random number generator framework has been totally decentralised.
+  This means that stochastic fitness functions can use `np.random.seed` if
+  necessary without throwing reproducibility out of the window. `Individual` and
+  `Family` instances are provided their own `np.random.RandomState` instances to
+  use in sampling, and there is a "lead" state used by `DataOptimiser`.
+- Minor changes to `README` and other documentation files hosted on GitHub.
+
 v0.2.1 (2019-04-25)
 -------------------
 
