@@ -7,6 +7,9 @@ v0.3 (2020-07-27)
 This is the first big improvement in a while and makes the library easier to use
 in my opinion. The changes can be summarised as follows:
 
+- The EA has been moved to the `edo.DataOptimiser` class rather than
+  `edo.run_algorithm`.
+- Individuals are now a fully-stocked class.
 - A new class `Family` for handling the subtypes of a `Distribution` class
   externally. Note the move from `edo.families` to `edo.distributions` to
   reflect this and to avoid confusion in the future.
