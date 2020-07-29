@@ -1,6 +1,13 @@
 History
 =======
 
+v0.3.4 (2020-07-29)
+-------------------
+
+- Separate `kwargs` parameters in `edo.DataOptimiser` for fitness, stopping, and
+  dwindling.
+- Updated documentation for v0.3.x.
+
 v0.3.3 (2020-07-28)
 -------------------
 
