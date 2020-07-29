@@ -3,12 +3,11 @@ version: 2
 python:
   version: 3.7
   install:
-    - requirements: requirements.txt
+    - requirements: docs/requirements.txt
+    - method: setuptools
+      path: .
 
 sphinx:
   configuration: docs/conf.py
-
-conda:
-  environment: environment.yml
 
 formats: all
