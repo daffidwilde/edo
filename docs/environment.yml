@@ -1,0 +1,9 @@
+name: edo-docs
+channels:
+- default
+dependencies:
+- python>=3.6
+- ipykernel
+- pip
+- pip:
+  - -r requirements.txt
