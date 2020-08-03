@@ -4,7 +4,7 @@ import os
 import pathlib
 
 import numpy as np
-from hypothesis import given
+from hypothesis import given, settings
 from hypothesis.strategies import composite, integers, sampled_from
 
 from edo import Family
@@ -99,6 +99,7 @@ def test_keep_track_all_subtypes(distribution):
 
 
 @given(distribution=distributions())
+@settings(deadline=None)
 def test_save(distribution):
     """ Test that a family can save its subtypes correctly. """
 
