@@ -52,6 +52,9 @@ To install from source then clone the GitHub repo::
     $ cd edo
     $ python setup.py install
 
+A command line tool has been developed to make using ``edo`` for larger
+experiments easier: https://github.com/daffidwilde/edolab
+
 Publications and documentation
 ==============================
 
