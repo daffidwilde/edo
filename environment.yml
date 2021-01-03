@@ -3,17 +3,16 @@ channels:
   - defaults
   - conda-forge
 dependencies:
-  - python=3.7.7
-  - dask=2.21
   - ipykernel
   - matplotlib>=3.2
-  - numpy=1.18
-  - pandas=1.0.5
-  - pip=20.1.1
-  - pytest=5.4.3
-  - pytest-cov=2.10.0
+  - pip
+  - pytest>=5.4
+  - pytest-cov>=2.10
+  - python>=3.6
   - scipy>=1.5
   - pip:
+    - -r requirements.txt
+    - -e .
     - black
     - flake8
     - hypothesis==5.20.3
