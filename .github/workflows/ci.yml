@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macOS-latest]
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.7, 3.8, 3.9]
 
     steps:
     - name: Checkout repository
@@ -29,11 +29,11 @@ jobs:
         python -m pip install -q --no-cache-dir -e .
         python -m pip install -q --no-cache-dir pytest pytest-cov hypothesis
         python -m pip install -q --no-cache-dir black flake8 isort
-        python -m pip list
+      python -m pip list
     - name: Run tests
       run: python -m pytest --cov=edo --cov-fail-under=100 tests
     - name: Run linters
-      if: matrix.python-version == 3.7 && matrix.os == 'ubuntu-latest'
+      if: matrix.python-version == 3.8 && matrix.os == 'ubuntu-latest'
       run: |
         python -m black --check --diff -l 80 .
         python -m isort -w 80 -m 3 --trailing-comma --check-only .
