@@ -29,7 +29,7 @@ jobs:
         python -m pip install -q --no-cache-dir -e .
         python -m pip install -q --no-cache-dir pytest pytest-cov hypothesis
         python -m pip install -q --no-cache-dir black flake8 isort
-      python -m pip list
+        python -m pip list
     - name: Run tests
       run: python -m pytest --cov=edo --cov-fail-under=100 tests
     - name: Run linters
