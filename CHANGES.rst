@@ -1,6 +1,11 @@
 History
 =======
 
+v0.3.6 (2021-01-03)
+-------------------
+
+- Fix Dask version to `2.30.0`. See #144 and #145 for details.
+
 v0.3.5 (2020-07-29)
 -------------------
 
@@ -38,7 +43,7 @@ in my opinion. The changes can be summarised as follows:
 
 - The EA has been moved to the `edo.DataOptimiser` class rather than
   `edo.run_algorithm`.
-- Individuals are now a fully-stocked class.
+- Individuals are now a fully stocked class.
 - A new class `Family` for handling the subtypes of a `Distribution` class
   externally. Note the move from `edo.families` to `edo.distributions` to
   reflect this and to avoid confusion in the future.
