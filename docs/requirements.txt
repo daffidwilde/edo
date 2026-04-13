@@ -11,4 +11,4 @@ sphinxcontrib-bibtex<2.0.0
 # Doctests and linting
 blackbook
 nbval
-pytest==5.4.3
+pytest==9.0.3
